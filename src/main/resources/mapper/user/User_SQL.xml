@@ -12,4 +12,55 @@
         VALUES (#{userId}, #{userPw}, #{name}, #{email}, #{phone}, #{birthDt}, 'A', NOW(), NULL, 'Y')
     </insert>
 
+    <!-- 회원 정보 조회 -->
+    <select id="selectUserInfo" parameterType="map" resultType="map">
+        /* userDAO.selectUserInfo */
+        SELECT
+            seq,
+            user_id,
+            user_pw,
+            name,
+            email,
+            phone,
+            birth_dt,
+            status,
+            reg_dt,
+            mod_dt,
+            use_yn
+        FROM member.user_info
+        WHERE 1 = 1
+
+        <if test="type == null or type == ''">
+            AND seq = #{seq}
+        </if>
+
+        <if test="type == 'checkId'">
+            AND user_id = #{userId}
+        </if>
+    </select>
+
+    <!-- 회원 정보 수정 -->
+    <update id="updateUserInfo" parameterType="map">
+        /* userDAO.updateUserInfo */
+        UPDATE member.user_info
+        <set>
+            <if test="userPw != null and userPw != ''">
+                user_pw = #{userPw},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="birthDt != null and birthDt != ''">
+                birth_dt = #{birthDt},
+            </if>
+        </set>
+        WHERE seq = #{seq}
+    </update>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.member.membermanagement.user.service;
 
 import com.member.membermanagement.user.mapper.UserMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,39 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+    // 회원 로그인
+    public Map<String, Object> userLogin(Map<String, Object> map, HttpServletRequest request) {
+        // 로그인 로직 구현
+        Map<String, Object> resultMap = new HashMap<>();
+        String userId = map.get("userId") != null ? map.get("userId").toString() : null;
+        String userPw = map.get("userPw") != null ? map.get("userPw").toString() : null;
+
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("type", "checkId");
+        paramMap.put("userId", userId);
+        Map<String, Object> userInfo = userMapper.selectUserInfo(paramMap);
+        if(userInfo == null){
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "존재하지 않는 아이디입니다.");
+            return resultMap;
+        }
+
+        // userPw 일치 확인
+        if (!passwordEncoder.matches(userPw, userInfo.get("userPw").toString())) {
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "비밀번호가 일치하지 않습니다.");
+            return resultMap;
+        }
+
+        // 로그인 성공시 회원 정보 request에 세션으로 저장
+        request.getSession().setAttribute("userLoginInfo", userInfo);
+
+        resultMap.put("resultCd", "S");
+        resultMap.put("resultMsg", "로그인 성공");
+
+        return resultMap;
+    }
+
     /**
      * 회원 가입
      * @param map
@@ -28,8 +62,6 @@ public class UserService {
         String userPw = map.get("userPw") != null ? map.get("userPw").toString() : null;
         String name = map.get("name") != null ? map.get("name").toString() : null;
         String email = map.get("email") != null ? map.get("email").toString() : null;
-        String phone = map.get("phone") != null ? map.get("phone").toString() : null;
-        String birthDt = map.get("birthDt") != null ? map.get("birthDt").toString() : null;
 
         if (userId == null || userId.trim().isEmpty()) {
             throw new IllegalArgumentException("로그인 아이디는 필수입니다.");
@@ -69,7 +101,6 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호는 최소 4글자 이상이어야 합니다.");
         }
 
-        // 특수문자 포함 여부 확인
         if (!isContainsSpecialCharacter(password)) {
             throw new IllegalArgumentException("비밀번호는 특수문자(!@#$%^&*)를 최소 1개 이상 포함해야 합니다.");
         }
@@ -84,6 +115,21 @@ public class UserService {
         // 특수문자 패턴: !@#$%^&*
         Pattern pattern = Pattern.compile("[!@#$%^&*]");
         return pattern.matcher(password).find();
+    }
+
+    public Map<String, Object> selectUserInfo(Map<String, Object> map){
+        return userMapper.selectUserInfo(map);
+    }
+
+    public Map<String, Object> updateUserInfo(Map<String, Object> map){
+        Map<String, Object> resultMap = new HashMap<>();
+        int result = userMapper.updateUserInfo(map);
+        if(result > 0){
+            resultMap.put("resultCd", "S");
+        }else{
+            resultMap.put("resultCd", "F");
+        }
+        return resultMap;
     }
 }
 
