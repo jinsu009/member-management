@@ -1,7 +1,7 @@
 # 🔐 Member Management
 
 Spring Security와 JWT 기반의 인증/인가 구조를 이해하고,
-OAuth2 로그인 및 회원 관리 기능을 구현하기 위한 개인 프로젝트입니다.
+OAuth2 로그인 및 회원 관리 기능을 구현하기 위한 개인 프로젝트를 개발 중 입니다.
 
 ---
 
