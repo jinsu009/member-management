@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.member.membermanagement.user.mapper.UserMapper">
+
+    <!-- 회원 정보 등록 -->
+    <insert id="insertUserInfo" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
+        /* userDAO.insertUserInfo */
+        INSERT INTO member.user_info (user_id, user_pw, name, email, phone, birth_dt, status, reg_dt, mod_dt, use_yn)
+        VALUES (#{userId}, #{userPw}, #{name}, #{email}, #{phone}, #{birthDt}, 'A', NOW(), NULL, 'Y')
+    </insert>
+
+</mapper>
