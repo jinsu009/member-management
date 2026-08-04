@@ -1,0 +1,413 @@
+:root {
+  --main-primary: #929fc1;
+  --main-primary-dark: #6f63bd;
+  --main-primary-deep: #6556b3;
+  --main-primary-light: #eeeafe;
+
+  --main-accent: #f2d965;
+  --main-accent-light: #fff8cf;
+
+  --main-cream: #fefef2;
+  --main-white: #ffffff;
+
+  --main-text: #34323f;
+  --main-sub-text: #787683;
+
+  --main-border: #e4e1ef;
+  --main-shadow: 0 8px 26px rgb(77 64 136 / 8%);
+}
+
+.main-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+
+  color: var(--main-text);
+  background: #fbfbfa;
+}
+
+.main-container {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+}
+
+/* =========================
+   Body Layout
+========================= */
+
+.main-body {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+
+/* =========================
+   Main Content
+========================= */
+
+.main-content {
+  min-width: 0;
+}
+
+.main-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.summary-card {
+  min-height: 380px;
+  padding: 28px;
+
+  background: var(--main-white);
+  border: 1px solid var(--main-border);
+  border-radius: 22px;
+  box-shadow: var(--main-shadow);
+}
+
+.summary-card-title {
+  margin: 0;
+
+  color: var(--main-primary-dark);
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.summary-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 290px;
+  text-align: center;
+}
+
+.summary-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 180px;
+  height: 180px;
+
+  color: var(--main-primary-dark);
+  background: linear-gradient(135deg, #f4f2ff 0%, #e6e8f7 100%);
+  border-radius: 50%;
+}
+
+.summary-number {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+
+  color: var(--main-primary-dark);
+}
+
+.summary-number strong {
+  font-size: 68px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.summary-number span {
+  padding-bottom: 8px;
+
+  color: var(--main-text);
+
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.summary-card-content p {
+  margin: 12px 0 0;
+
+  color: var(--main-sub-text);
+
+  font-size: 17px;
+}
+
+.calendar-button {
+  min-width: 210px;
+  height: 58px;
+  margin-top: 20px;
+  padding: 0 32px;
+
+  color: var(--main-white);
+  background: linear-gradient(
+    135deg,
+    var(--main-primary-dark),
+    var(--main-primary-deep)
+  );
+  border-radius: 12px;
+
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.calendar-button:hover {
+  box-shadow: 0 10px 22px rgb(101 86 179 / 22%);
+  transform: translateY(-2px);
+}
+
+/* =========================
+   Today Todo List
+========================= */
+
+.today-card {
+  margin-top: 24px;
+  padding: 30px 36px 34px;
+
+  background: var(--main-white);
+  border: 1px solid var(--main-border);
+  border-radius: 22px;
+  box-shadow: var(--main-shadow);
+}
+
+.today-card-title {
+  margin: 0 0 16px;
+
+  color: var(--main-primary-dark);
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.today-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.today-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  min-height: 62px;
+  padding: 0 8px;
+
+  border-bottom: 1px dashed #dcd7ee;
+}
+
+.today-list-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.today-list-content input {
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 24px;
+  margin: 0;
+
+  accent-color: var(--main-primary-dark);
+  cursor: pointer;
+}
+
+.today-list-content label {
+  overflow: hidden;
+
+  color: #55525d;
+
+  font-size: 18px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.today-list-item time {
+  flex-shrink: 0;
+
+  color: #565461;
+
+  font-size: 17px;
+}
+
+.today-more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 58px;
+  margin-top: 30px;
+
+  color: var(--main-primary-dark);
+  background: linear-gradient(90deg, #f2f0fb 0%, #e8e7f5 100%);
+  border-radius: 12px;
+
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.today-more-button:hover {
+  background: #e0dcf5;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 1080px) {
+  .main-body {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .main-navigation-item {
+    padding: 0 18px;
+    font-size: 18px;
+  }
+
+  .main-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card {
+    min-height: 330px;
+  }
+
+  .summary-card-content {
+    min-height: 240px;
+  }
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 760px) {
+  .main-page {
+    padding: 16px;
+  }
+
+  .main-body {
+    display: block;
+    margin-top: 18px;
+  }
+
+  .main-sidebar {
+    min-height: auto;
+    padding: 14px;
+  }
+
+  .main-navigation {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .main-navigation-item {
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 54px;
+    padding: 0 12px;
+
+    font-size: 15px;
+  }
+
+  .main-content {
+    margin-top: 18px;
+  }
+
+  .main-summary-grid {
+    gap: 18px;
+  }
+
+  .summary-card {
+    min-height: auto;
+    padding: 22px;
+  }
+
+  .summary-card-title {
+    font-size: 22px;
+  }
+
+  .summary-card-content {
+    min-height: 250px;
+  }
+
+  .summary-icon-circle {
+    width: 140px;
+    height: 140px;
+  }
+
+  .summary-number strong {
+    font-size: 54px;
+  }
+
+  .today-card {
+    margin-top: 18px;
+    padding: 24px 18px;
+  }
+
+  .today-card-title {
+    font-size: 22px;
+  }
+
+  .today-list-item {
+    min-height: 58px;
+  }
+
+  .today-list-content {
+    gap: 12px;
+  }
+
+  .today-list-content input {
+    width: 21px;
+    height: 21px;
+  }
+
+  .today-list-content label {
+    font-size: 15px;
+  }
+
+  .today-list-item time {
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   Small Mobile
+========================= */
+
+@media (max-width: 420px) {
+  .main-navigation-item span {
+    font-size: 14px;
+  }
+
+  .main-navigation-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .today-list-item {
+    align-items: flex-start;
+    padding: 14px 4px;
+  }
+
+  .today-list-item time {
+    padding-top: 2px;
+  }
+}
