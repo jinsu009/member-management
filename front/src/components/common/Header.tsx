@@ -5,7 +5,11 @@ import "@/assets/css/components/Header.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Header() {
+type HeaderProps = {
+  isLogin: boolean;
+};
+
+function Header(prop: HeaderProps) {
   const navigate = useNavigate();
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -13,6 +17,16 @@ function Header() {
   const formattedTime = `
   ${currentTime.getFullYear()}년 ${currentTime.getMonth() + 1}월 ${currentTime.getDate()}일 
   ${String(currentTime.getHours()).padStart(2, "0")}:${String(currentTime.getMinutes()).padStart(2, "0")}:${String(currentTime.getSeconds()).padStart(2, "0")}`;
+
+  async function logout() {
+    const resp = await fetch("http://localhost:8080/user/ajax/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    const result = await resp.json();
+    console.log(result.isLogin);
+    if (!result.isLogin) window.location.reload();
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -44,7 +58,17 @@ function Header() {
           <time dateTime={currentTime.toISOString()}>{formattedTime}</time>
         </div>
         <div className="user-header__btn_wrap">
-          <button>로그아웃</button>
+          {prop.isLogin ? (
+            <button onClick={logout}>로그아웃</button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              로그인
+            </button>
+          )}
         </div>
       </div>
     </header>

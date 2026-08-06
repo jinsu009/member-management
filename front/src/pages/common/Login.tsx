@@ -3,8 +3,40 @@ import { Eye, EyeOff, LockKeyhole, User, UserRoundPlus } from "lucide-react";
 import userLockIcon from "@/assets/images/icons/user_lock_icon.png";
 import loginBackground from "@/assets/images/login_background.png";
 import "@/assets/css/Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigation = useNavigate();
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      ajaxLogin();
+    }
+  };
+
+  const [loginInfo, setLoginInfo] = useState({
+    userId: "",
+    userPw: "",
+  });
+
+  async function ajaxLogin() {
+    try {
+      const resp = await fetch("http://localhost:8080/user/ajax/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(loginInfo),
+      });
+      const result = await resp.json();
+      if (result.resultCd === "S") navigation("/main");
+      else alert("로그인실패");
+    } catch (error) {
+      console.error("login error");
+    }
+  }
+
   return (
     <main className="login-page">
       <section className="login-card">
@@ -22,7 +54,7 @@ function Login() {
               <p>아이디와 비밀번호를 입력해 주세요.</p>
             </div>
 
-            <form className="login-form">
+            <div className="login-form">
               <div className="login-field">
                 <label htmlFor="userId">아이디</label>
 
@@ -39,6 +71,10 @@ function Login() {
                     type="text"
                     placeholder="아이디를 입력하세요"
                     autoComplete="username"
+                    value={loginInfo.userId}
+                    onChange={(e) => {
+                      setLoginInfo({ ...loginInfo, userId: e.target.value });
+                    }}
                   />
                 </div>
               </div>
@@ -56,8 +92,13 @@ function Login() {
                   <input
                     id="userPw"
                     name="userPw"
+                    type="password"
                     placeholder="비밀번호를 입력하세요"
                     autoComplete="current-password"
+                    value={loginInfo.userPw}
+                    onChange={(e) => {
+                      setLoginInfo({ ...loginInfo, userPw: e.target.value });
+                    }}
                   />
 
                   <button className="password-toggle-button" type="button">
@@ -82,10 +123,14 @@ function Login() {
                 </button>
               </div>
 
-              <button className="login-submit-button" type="submit">
+              <button
+                className="login-submit-button"
+                onClick={ajaxLogin}
+                onKeyDown={handleKeyDown}
+              >
                 로그인
               </button>
-            </form>
+            </div>
 
             <div className="login-divider">
               <span>또는</span>

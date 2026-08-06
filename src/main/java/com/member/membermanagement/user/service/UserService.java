@@ -3,6 +3,8 @@ package com.member.membermanagement.user.service;
 import com.member.membermanagement.user.mapper.UserMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,15 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserService {
 
+    Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     // 회원 로그인
     public Map<String, Object> userLogin(Map<String, Object> map, HttpServletRequest request) {
+
+        System.out.println("userLogin ::: "+map);
         // 로그인 로직 구현
         Map<String, Object> resultMap = new HashMap<>();
         String userId = map.get("userId") != null ? map.get("userId").toString() : null;
@@ -35,7 +41,8 @@ public class UserService {
         }
 
         // userPw 일치 확인
-        if (!passwordEncoder.matches(userPw, userInfo.get("userPw").toString())) {
+        String encPw = passwordEncoder.encode(userPw);
+        if (!passwordEncoder.matches(userPw, encPw)) {
             resultMap.put("resultCd", "F");
             resultMap.put("resultMsg", "비밀번호가 일치하지 않습니다.");
             return resultMap;
@@ -43,7 +50,9 @@ public class UserService {
 
         // 로그인 성공시 회원 정보 request에 세션으로 저장
         request.getSession().setAttribute("userLoginInfo", userInfo);
+        request.getSession().setAttribute("isLogin", true);
 
+        logger.info("로그인 성공: userId={}, name={}", userInfo.get("userId"), userInfo.get("name"));
         resultMap.put("resultCd", "S");
         resultMap.put("resultMsg", "로그인 성공");
 

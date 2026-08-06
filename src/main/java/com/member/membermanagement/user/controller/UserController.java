@@ -7,16 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
+@CrossOrigin(
+        origins = "http://localhost:5173",
+        allowCredentials = "true"
+)
 public class UserController {
 
     private final UserService userService;
@@ -26,10 +28,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/main")
-    public ModelAndView getMain(@RequestBody Map<String, Object> map) {
-        ModelAndView mav = new ModelAndView("user/main");
-        return mav;
+    @PostMapping("/ajax/login")
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = userService.userLogin(map, request);
+        return ResponseEntity.ok(resultMap);
+    }
+
+    @GetMapping("/login/status")
+    @ResponseBody
+    public Map<String, Object> loginStatus(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+        Boolean isLogin = request.getSession().getAttribute("isLogin") != null ? (Boolean) request.getSession().getAttribute("isLogin") : false;
+        if(isLogin != null && isLogin){
+            resultMap.put("userLoginInfo", request.getSession().getAttribute("userLoginInfo"));
+        }
+        resultMap.put("isLogin", isLogin);
+        return resultMap;
+    }
+
+    @PostMapping("/ajax/logout")
+    public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        request.getSession().removeAttribute("userLoginInfo");
+        request.getSession().removeAttribute("isLogin");
+
+        resultMap.put("isLogin", false);
+        return ResponseEntity.ok(resultMap);
     }
 
     @PostMapping("/ajax/join")
