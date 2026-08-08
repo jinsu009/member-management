@@ -1,29 +1,30 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/common/Header";
-import Sidebar from "../components/common/Sidebar";
-import { ListTodo, UserRound } from "lucide-react";
-import "./UserLayout.css";
+
+import "./AdminLayout.css";
 
 import { useEffect, useState } from "react";
+import Header from "../components/common/Header";
+import Sidebar from "../components/common/Sidebar";
+import { Users, ShieldUser } from "lucide-react";
 
-function UserLayout() {
-  const userMenus = [
+function AdminLayout() {
+  const adminMenus = [
     {
-      label: "투두리스트",
-      path: "/todo",
-      icon: ListTodo,
+      label: "회원 관리",
+      path: "/admin/users",
+      icon: Users,
     },
     {
-      label: "내 정보",
-      path: "/myPage",
-      icon: UserRound,
+      label: "관리자 관리",
+      path: "/admin/admins",
+      icon: ShieldUser,
     },
   ];
 
   const [isLogin, setIsLogin] = useState(false);
 
   async function checkLogin() {
-    const resp = await fetch("http://localhost:8080/user/login/status", {
+    const resp = await fetch("http://localhost:8080/admin/login/status", {
       method: "GET",
       credentials: "include",
     });
@@ -44,7 +45,7 @@ function UserLayout() {
       <div className="user-layout__container">
         <Header isLogin={isLogin} />
         <div className="user-layout__body">
-          <Sidebar menus={userMenus} />
+          <Sidebar menus={adminMenus} />
           <main className="user-layout__content">
             <Outlet />
           </main>
@@ -54,4 +55,4 @@ function UserLayout() {
   );
 }
 
-export default UserLayout;
+export default AdminLayout;

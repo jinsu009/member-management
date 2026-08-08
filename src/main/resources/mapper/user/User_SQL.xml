@@ -35,7 +35,7 @@
         </if>
 
         <if test="type == 'checkId'">
-            AND user_id = #{userId}
+            AND user_id = #{id}
         </if>
     </select>
 

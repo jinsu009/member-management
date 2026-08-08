@@ -5,11 +5,94 @@
 
 <mapper namespace="com.member.membermanagement.admin.mapper.AdminMapper">
 
+    <!-- 관리자 정보 조회 -->
+    <select id="selectAdminInfo" parameterType="map" resultType="map">
+        /* adminDAO.selectAdminInfo */
+        SELECT
+        seq, admin_id, admin_pw, admin_name, auth_level, status, last_login_dt, reg_dt, mod_dt, use_yn
+        FROM member.admin_info
+        WHERE 1 = 1
+        <if test="type == null or type == ''">
+            AND seq = #{seq}
+        </if>
+        <if test="type == 'checkId'">
+            AND admin_id = #{id}
+        </if>
+    </select>
+
+    <!-- 관리자 목록 조회 -->
+    <select id="selectAdminInfoList" resultType="map">
+        /* adminDAO.selectAdminInfoList */
+        SELECT seq,
+        admin_id as id,
+        admin_name as name,
+        auth_level as authLevel, status,
+        DATE_FORMAT(last_login_dt, '%Y-%m-%d %H:%i:%s') as lastLoginDt,
+        DATE_FORMAT(reg_dt, '%Y-%m-%d %H:%i:%s') as regDt,
+        DATE_FORMAT(mod_dt, '%Y-%m-%d %H:%i:%s') as modDt,
+        use_yn
+        FROM member.admin_info
+        WHERE 1=1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'id'">
+                    AND admin_id LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'name'">
+                    AND admin_name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY seq DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+    <select id="selectAdminInfoListCnt" resultType="int">
+        /* adminDAO.selectAdminInfoListCnt */
+        SELECT COUNT(*)
+        FROM member.admin_info
+        WHERE 1=1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'id'">
+                    AND admin_id LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'name'">
+                    AND admin_name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
     <!-- 회원 목록 조회 -->
     <select id="selectUserInfoList" resultType="map">
         /* adminDAO.selectUserInfo */
-        SELECT seq, user_id, user_pw, name, email, phone, birth_dt, status, reg_dt, mod_dt, use_yn
+        SELECT seq, user_id as id, user_pw, name, email, phone,
+        DATE_FORMAT(birth_dt, '%Y-%m-%d %H:%i:%s') as birthDt,
+        status,
+        DATE_FORMAT(reg_dt, '%Y-%m-%d %H:%i:%s') as regDt, DATE_FORMAT(mod_dt, '%Y-%m-%d %H:%i:%s') as modDt, use_yn
         FROM member.user_info
+        WHERE 1=1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'id'">
+                    AND user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'name'">
+                    AND name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY seq DESC
+        LIMIT #{offset}, #{pageSize}
     </select>
 
     <!-- 회원 목록 조회 COUNT -->
@@ -17,6 +100,20 @@
         /* adminDAO.selectUserInfoListCnt */
         SELECT COUNT(*)
         FROM member.user_info
+        WHERE 1=1
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchType == 'id'">
+                    AND user_id LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchType == 'name'">
+                    AND name LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
     </select>
 
     <!-- 회원 상태 수정 -->

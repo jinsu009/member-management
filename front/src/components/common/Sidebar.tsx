@@ -1,33 +1,39 @@
-import { ListTodo, UserRound } from "lucide-react";
+import { ListTodo, UserRound, type LucideIcon } from "lucide-react";
 
-import "@/assets/css/components/Sidebar.css";
+import "./Sidebar.css";
 import { useNavigate } from "react-router-dom";
 
-function Sidebar() {
+type SidebarMenu = {
+  label: string;
+  path: string;
+  icon: LucideIcon;
+};
+
+type SidebarProps = {
+  menus: SidebarMenu[];
+};
+
+function Sidebar({ menus }: SidebarProps) {
   const navigate = useNavigate();
 
   return (
     <aside className="user-sidebar">
       <nav className="user-sidebar__navigation" aria-label="사용자 메뉴">
-        <button
-          className="
-            user-sidebar__menu
-            user-sidebar__menu--active
-          "
-          type="button"
-        >
-          <ListTodo size={25} aria-hidden="true" />
-          <span>투두리스트 목록</span>
-        </button>
+        {menus.map((menu) => {
+          const Icon = menu.icon;
 
-        <button
-          className="user-sidebar__menu"
-          type="button"
-          onClick={() => navigate("/myPage")}
-        >
-          <UserRound size={24} aria-hidden="true" />
-          <span>내 정보</span>
-        </button>
+          return (
+            <button
+              key={menu.path}
+              className="user-sidebar__menu"
+              type="button"
+              onClick={() => navigate(menu.path)}
+            >
+              <Icon size={24} aria-hidden="true" />
+              <span>{menu.label}</span>
+            </button>
+          );
+        })}
       </nav>
     </aside>
   );

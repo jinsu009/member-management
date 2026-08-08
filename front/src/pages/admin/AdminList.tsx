@@ -1,0 +1,220 @@
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Input,
+  Select,
+  Space,
+  Table,
+  type TableColumnsType,
+} from "antd";
+import "./AdminLogin.css";
+import "@/assets/css/admin/AdminList.css";
+
+interface AdminInfo {
+  seq: number;
+  id: string;
+  name: string;
+  authLevel: string;
+  status: string;
+  lastLoginDt: string;
+  regDt: string;
+  modDt: string;
+  useYn: string;
+}
+
+function AdminList() {
+  const [adminList, setAdminList] = useState<AdminInfo[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const [pageNo, setPageNo] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+
+  const [searchType, setSearchType] = useState("id");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [status, setStatus] = useState("");
+
+  const columns: TableColumnsType<AdminInfo> = [
+    {
+      title: "번호",
+      dataIndex: "seq",
+      key: "seq",
+      width: 80,
+    },
+    {
+      title: "아이디",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "이름",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "권한",
+      dataIndex: "authLevel",
+      key: "authLevel",
+    },
+    {
+      title: "마지막로그인",
+      dataIndex: "lastLoginDt",
+      key: "lastLoginDt",
+    },
+    {
+      title: "상태",
+      dataIndex: "status",
+      key: "status",
+      render: (status: number, render) => {
+        switch (status) {
+          case 1:
+            return "정상";
+          case 2:
+            return "정지";
+          default:
+            return "-";
+        }
+      },
+    },
+    {
+      title: "등록일",
+      dataIndex: "regDt",
+      key: "regDt",
+    },
+    {
+      title: "수정일",
+      dataIndex: "modDt",
+      key: "modDt",
+    },
+  ];
+
+  async function getAdminList() {
+    setLoading(true);
+    try {
+      const resp = await fetch(
+        "http://localhost:8080/admin/ajax/getAdminList",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pageNo,
+            pageSize,
+            searchType,
+            searchKeyword,
+            status,
+          }),
+        },
+      );
+
+      const result = await resp.json();
+
+      setAdminList(result.adminInfoList);
+      setTotal(result.total ?? 0);
+    } catch (error) {
+      console.error("관리자 목록 조회 중 오류 발생 : ", error);
+      setAdminList([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleSearch() {
+    // 검색할 때는 무조건 1페이지부터
+    if (pageNo === 1) {
+      getAdminList();
+    } else {
+      setPageNo(1);
+    }
+  }
+
+  function searchReset() {
+    setSearchType("id");
+    setSearchKeyword("");
+    setStatus("");
+    setPageNo(1);
+  }
+
+  useEffect(() => {
+    getAdminList();
+  }, [pageNo, pageSize]);
+
+  return (
+    <div className="admin-list">
+      <h2 className="admin-list__title">관리자 관리</h2>
+      <div className="admin-list__search">
+        <Space wrap style={{ marginBottom: 15 }}>
+          <Select
+            value={searchType}
+            style={{ width: 110 }}
+            onChange={(value) => setSearchType(value)}
+            options={[
+              {
+                value: "id",
+                label: "아이디",
+              },
+              {
+                value: "name",
+                label: "이름",
+              },
+            ]}
+          />
+
+          <Input
+            value={searchKeyword}
+            style={{ width: 220 }}
+            placeholder="검색어를 입력해주세요."
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onPressEnter={handleSearch}
+          />
+
+          <Select
+            value={status}
+            style={{ width: 120 }}
+            onChange={(value) => setStatus(value)}
+            options={[
+              {
+                value: "",
+                label: "전체 상태",
+              },
+              {
+                value: "1",
+                label: "정상",
+              },
+              {
+                value: "2",
+                label: "정지",
+              },
+            ]}
+          />
+
+          <Button type="primary" onClick={handleSearch}>
+            검색
+          </Button>
+
+          <Button onClick={searchReset}>초기화</Button>
+        </Space>
+      </div>
+      <Table<AdminInfo>
+        rowKey="seq"
+        dataSource={adminList}
+        columns={columns}
+        loading={loading}
+        pagination={{
+          current: pageNo,
+          pageSize: pageSize,
+          total: total,
+          showSizeChanger: true,
+          onChange: (page, size) => {
+            setPageNo(page);
+            setPageSize(size);
+          },
+        }}
+      />
+    </div>
+  );
+}
+
+export default AdminList;

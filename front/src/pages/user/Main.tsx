@@ -1,6 +1,6 @@
 import { CalendarDays, ChevronDown, ClipboardCheck } from "lucide-react";
 
-import "@/assets/css/Main.css";
+import "./Main.css";
 
 interface TodoItem {
   id: number;

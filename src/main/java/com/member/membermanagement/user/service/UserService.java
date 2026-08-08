@@ -32,7 +32,7 @@ public class UserService {
 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("type", "checkId");
-        paramMap.put("userId", userId);
+        paramMap.put("id", userId);
         Map<String, Object> userInfo = userMapper.selectUserInfo(paramMap);
         if(userInfo == null){
             resultMap.put("resultCd", "F");

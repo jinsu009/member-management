@@ -1,23 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/common/Login";
-import UserLayout from "./layouts/UserLayout";
-import UserMain from "./pages/user/UserMain";
-import Main from "./pages/common/Main";
-import MyPage from "./pages/user/MyPage";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./routes/Router";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* <Route path="/" element={<Navigate to="/login" replace />} />*/}
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/" element={<UserLayout />}>
-          <Route path="main" element={<Main />} />
-          {/* <Route path="todo"></Route> */}
-          <Route path="myPage" element={<MyPage />} />
-        </Route>
-      </Routes>
+      <Router />
     </BrowserRouter>
   );
 }

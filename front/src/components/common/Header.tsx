@@ -1,9 +1,11 @@
 import { CalendarDays } from "lucide-react";
 
 import flowerIcon from "@/assets/images/icons/flower.png";
-import "@/assets/css/components/Header.css";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import "./Header.css";
 
 type HeaderProps = {
   isLogin: boolean;

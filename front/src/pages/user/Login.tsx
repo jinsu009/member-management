@@ -2,8 +2,9 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Eye, EyeOff, LockKeyhole, User, UserRoundPlus } from "lucide-react";
 import userLockIcon from "@/assets/images/icons/user_lock_icon.png";
 import loginBackground from "@/assets/images/login_background.png";
-import "@/assets/css/Login.css";
 import { useNavigate } from "react-router-dom";
+
+import "./Login.css";
 
 function Login() {
   const navigation = useNavigate();

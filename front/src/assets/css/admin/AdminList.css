@@ -1,0 +1,76 @@
+/* AdminList.css */
+
+.admin-list {
+  width: 100%;
+  padding: 32px;
+}
+
+.admin-list__title {
+  margin: 0 0 24px;
+
+  font-size: 24px;
+  font-weight: 700;
+  color: #333333;
+}
+
+/* Ant Design Table */
+.admin-list .ant-table-wrapper {
+  width: 100%;
+}
+
+.admin-list .ant-table {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+
+  font-size: 14px;
+}
+
+/* 테이블 Header */
+.admin-list .ant-table-thead > tr > th {
+  padding: 14px 16px;
+
+  background-color: #f5f6f8;
+  color: #333333;
+
+  font-weight: 600;
+  text-align: center;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* 테이블 Body */
+.admin-list .ant-table-tbody > tr > td {
+  padding: 14px 16px;
+
+  color: #555555;
+  text-align: center;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+/* 행 Hover */
+.admin-list .ant-table-tbody > tr:hover > td {
+  background-color: #fafafa !important;
+}
+
+/* Pagination */
+.admin-list .ant-pagination {
+  margin-top: 24px;
+  justify-content: center;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .admin-list {
+    padding: 20px 16px;
+  }
+
+  .admin-list__title {
+    font-size: 20px;
+  }
+
+  .admin-list .ant-table {
+    font-size: 13px;
+  }
+}
