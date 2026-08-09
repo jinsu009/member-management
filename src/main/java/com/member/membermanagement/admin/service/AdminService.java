@@ -33,8 +33,8 @@ public class AdminService {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("type", "checkId");
         paramMap.put("id", userId);
-        Map<String, Object> userInfo = adminMapper.selectAdminInfo(paramMap);
-        if(userInfo == null){
+        Map<String, Object> adminInfo = adminMapper.selectAdminInfo(paramMap);
+        if(adminInfo == null){
             resultMap.put("resultCd", "F");
             resultMap.put("resultMsg", "존재하지 않는 아이디입니다.");
             return resultMap;
@@ -48,11 +48,11 @@ public class AdminService {
             return resultMap;
         }
 
-        // 로그인 성공시 회원 정보 request에 세션으로 저장
-        request.getSession().setAttribute("userLoginInfo", userInfo);
+        // 로그인 성공시 관리자 정보 request에 세션으로 저장
+        request.getSession().setAttribute("adminLoginInfo", adminInfo);
         request.getSession().setAttribute("isLogin", true);
 
-        logger.info("로그인 성공: userId={}, name={}", userInfo.get("userId"), userInfo.get("name"));
+        logger.info("로그인 성공: userId={}, name={}", adminInfo.get("userId"), adminInfo.get("name"));
         resultMap.put("resultCd", "S");
         resultMap.put("resultMsg", "로그인 성공");
 

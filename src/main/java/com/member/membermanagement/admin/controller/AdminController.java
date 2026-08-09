@@ -33,7 +33,7 @@ public class AdminController {
         Map<String, Object> resultMap = new HashMap<>();
         Boolean isLogin = request.getSession().getAttribute("isLogin") != null ? (Boolean) request.getSession().getAttribute("isLogin") : false;
         if(isLogin != null && isLogin){
-            resultMap.put("userLoginInfo", request.getSession().getAttribute("userLoginInfo"));
+            resultMap.put("adminLoginInfo", request.getSession().getAttribute("adminLoginInfo"));
         }
         resultMap.put("isLogin", isLogin);
         return resultMap;

@@ -14,11 +14,13 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
+    // HTTP 요청이 Spring Security를 통과할 때 어떤 보안 정책을 사용할 것인지 적용
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable()) // CORS활성화
+                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/user/ajax/**"
                         , "/admin/ajax/**"

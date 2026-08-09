@@ -26,7 +26,6 @@ function Header(prop: HeaderProps) {
       credentials: "include",
     });
     const result = await resp.json();
-    console.log(result.isLogin);
     if (!result.isLogin) window.location.reload();
   }
 
