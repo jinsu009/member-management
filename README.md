@@ -53,6 +53,8 @@
 - 사용자, 관리자 로그인 / 로그아웃
 - Session 기반 로그인 상태 관리
 - BCrypt 기반 비밀번호 암호화 및 검증
+- `AdminAuthInterceptor`를 이용한 관리자 API 접근 제어
+- 관리자 비로그인 요청에 대해 `401 Unauthorized` 처리
 <!--
 - JWT 인증
 - Refresh Token 관리
