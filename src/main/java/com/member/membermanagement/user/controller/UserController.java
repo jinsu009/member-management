@@ -65,13 +65,19 @@ public class UserController {
 
     @PostMapping("/ajax/getUserInfo")
     public ResponseEntity<Map<String, Object>> getUserInfo(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.selectUserInfo(map);
+        Map<String, Object> resultMap = userService.getUserInfo(map);
         return ResponseEntity.ok(resultMap);
     }
 
     @PostMapping("/ajax/updateUserInfo")
     public ResponseEntity<Map<String, Object>> updateUserInfo(@RequestBody Map<String, Object> map, HttpServletRequest request){
         Map<String, Object> resultMap = userService.updateUserInfo(map);
+        return ResponseEntity.ok(resultMap);
+    }
+	
+	@PostMapping("/ajax/userCheckId")
+	public ResponseEntity<Map<String, Object>> checkUserId(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = userService.userCheckId(map);
         return ResponseEntity.ok(resultMap);
     }
 

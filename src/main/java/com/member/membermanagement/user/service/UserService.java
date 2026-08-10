@@ -126,19 +126,71 @@ public class UserService {
         return pattern.matcher(password).find();
     }
 
-    public Map<String, Object> selectUserInfo(Map<String, Object> map){
+	/**
+     * 사용자 정보 조회
+     * @param 
+     * @return 
+    */
+    public Map<String, Object> getUserInfo(Map<String, Object> map, HttpServletRequest request){
+		
+		Map<String, Object> resultMap = new HashMap();
+		
+		Map<String, Object> loginUserInfo = request.getSession().getAttribute("userLoginInfo");
+		
+		if(loginUserInfo == null){
+			resultMap.put("resultCd", "E000");
+			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
+			return resultMap;
+		}
+		
         return userMapper.selectUserInfo(map);
     }
 
+	/**
+     * 사용자 정보 수정
+     * @param 
+     * @return 
+    */
     public Map<String, Object> updateUserInfo(Map<String, Object> map){
         Map<String, Object> resultMap = new HashMap<>();
+		
+		String newEmailStr = map.get("email") != null ? map.get("email").toString() : null;
+		if(newEmailStr == null){
+			resultMap.put("resultCd", "E001");
+			resultMap.put("resultMsg", "변경 내용이 없습니다.");
+			return resultMap;
+		}
+		
         int result = userMapper.updateUserInfo(map);
         if(result > 0){
             resultMap.put("resultCd", "S");
+			resultMap.put("resultMsg", "사용자 정보 변경 성공");
         }else{
             resultMap.put("resultCd", "F");
+			resultMap.put("resultMsg", "사용자 정보 변경 실패");
         }
         return resultMap;
     }
+	
+	/**
+     * 아이디 중복확인
+     * @param 
+     * @return 
+    */
+	public Map<String, Object> userCheckId(Map<String, Object> map, HttpServletRequest request){
+		
+
+		Map<String, Object> resultMap = new HashMap();
+	
+		if(resultMap == null){
+			resultMap.put("resultCd", "S");
+			resultMap.put("사용가능한 ID입니다.");
+		}else{
+			resultMap.put("resultCd", "F");
+			resultMap.put("이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
+		}
+		
+		return resultMap;
+	}
 }
 
