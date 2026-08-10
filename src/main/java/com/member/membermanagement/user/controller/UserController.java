@@ -81,4 +81,10 @@ public class UserController {
         return ResponseEntity.ok(resultMap);
     }
 
+    @PostMapping("/ajax/searchUserId")
+    public ResponseEntity<Map<String, Object>> searchUserId(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = userService.searchUserId(map);
+        return ResponseEntity.ok(resultMap);
+    }
+
 }

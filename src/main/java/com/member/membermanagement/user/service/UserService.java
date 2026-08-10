@@ -21,7 +21,12 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    // 회원 로그인
+    /**
+     * 회원 로그인
+     * @param map
+     * @param request
+     * @return
+     */
     public Map<String, Object> userLogin(Map<String, Object> map, HttpServletRequest request) {
 
         System.out.println("userLogin ::: "+map);
@@ -126,11 +131,12 @@ public class UserService {
         return pattern.matcher(password).find();
     }
 
-	/**
+    /**
      * 사용자 정보 조회
-     * @param 
-     * @return 
-    */
+     * @param map
+     * @param request
+     * @return
+     */
     public Map<String, Object> getUserInfo(Map<String, Object> map, HttpServletRequest request){
 		
 		Map<String, Object> resultMap = new HashMap();
@@ -146,11 +152,11 @@ public class UserService {
         return userMapper.selectUserInfo(map);
     }
 
-	/**
+    /**
      * 사용자 정보 수정
-     * @param 
-     * @return 
-    */
+     * @param map
+     * @return
+     */
     public Map<String, Object> updateUserInfo(Map<String, Object> map){
         Map<String, Object> resultMap = new HashMap<>();
 		
@@ -171,26 +177,56 @@ public class UserService {
         }
         return resultMap;
     }
-	
-	/**
-     * 아이디 중복확인
-     * @param 
-     * @return 
-    */
-	public Map<String, Object> userCheckId(Map<String, Object> map, HttpServletRequest request){
-		
 
+    /**
+     * 아이디 중복확인
+     * @param map
+     * @param request
+     * @return
+     */
+	public Map<String, Object> userCheckId(Map<String, Object> map, HttpServletRequest request){
 		Map<String, Object> resultMap = new HashMap();
 	
 		if(resultMap == null){
 			resultMap.put("resultCd", "S");
-			resultMap.put("사용가능한 ID입니다.");
+			resultMap.put("resultMsg", "사용가능한 ID입니다.");
 		}else{
 			resultMap.put("resultCd", "F");
-			resultMap.put("이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
+			resultMap.put("resultMsg", "이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
 		}
 		
 		return resultMap;
 	}
+
+    /**
+     * 사용자 ID찾기
+     * @param map
+     * @param request
+     * @return
+     */
+    public Map<String, Object> searchUserId(Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap();
+
+        String name = map.get("name") != null ? map.get("name").toString() : null;
+        String email = map.get("email") != null ? map.get("email").toString() : null;
+
+        if(name == null || email == null){
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "회원정보를 입력해주세요.\n(이름, 이메일 필수)");
+            return resultMap;
+        }
+
+        if(resultMap == null){
+            resultMap.put("resultCd", "S");
+            resultMap.put("resultMsg", "사용가능한 ID입니다.");
+        }else{
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
+        }
+
+        return resultMap;
+    }
+
+
 }
 
