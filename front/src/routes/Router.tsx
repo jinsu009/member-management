@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/user/Login";
 import UserLayout from "../layouts/UserLayout";
 import Main from "../pages/user/Main";
+import CheckPw from "../pages/user/CheckPw";
 import MyPage from "../pages/user/MyPage";
 import AdminLogin from "../pages/admin/AdminLogin";
 import AdminLayout from "../layouts/AdminLayout";
@@ -20,6 +21,7 @@ function Router() {
       {/* 일반 사용자 영역 */}
       <Route element={<UserLayout />}>
         <Route path="/main" element={<Main />} />
+		<Route path="/checkPw" element={<CheckPw />} />
         <Route path="/myPage" element={<MyPage />} />
       </Route>
 

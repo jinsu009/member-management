@@ -20,23 +20,28 @@ function Login() {
     userPw: "",
   });
 
-  async function ajaxLogin() {
-    try {
-      const resp = await fetch("http://localhost:8080/user/ajax/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(loginInfo),
-      });
-      const result = await resp.json();
-      if (result.resultCd === "S") navigation("/main");
-      else alert("로그인실패");
-    } catch (error) {
-      console.error("login error");
+  const ajaxLogin = async () => {
+  try {
+    const resp = await fetch("http://localhost:8080/user/ajax/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(loginInfo),
+    });
+
+    const result = await resp.json();
+
+    if (result.resultCd === "S") {
+      navigation("/main");
+    } else {
+      alert("로그인 실패");
     }
+  } catch (error) {
+    console.error("login error", error);
   }
+};
 
   return (
     <main className="login-page">
