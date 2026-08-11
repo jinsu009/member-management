@@ -1,0 +1,46 @@
+package com.member.membermanagement.todo.userController;
+
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+@RequestMapping("/user/todo")
+@CrossOrigin(
+        origins = "http://localhost:5173",
+        allowCredentials = "true"
+)
+public class UserController {
+
+	@PostMapping("/ajax/saveTodo")
+	public ResponseEntity<Map<String, Object>> saveTodo(@RequestParam Map<String, Object> map, HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<>();
+		return ResponseEntity.ok(resultMap);
+	}
+
+	@PostMapping("/ajax/deleteTodo")
+	public ResponseEntity<Map<String, Object>> deleteTodo(@RequestParam Map<String, Object> map, HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<>();
+		return ResponseEntity.ok(resultMap);
+	}
+	
+	@PostMapping("/ajax/updateTodo")
+	public ResponseEntity<Map<String, Object>> updateTodo(@RequestParam Map<String, Object> map, HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<>();
+		return ResponseEntity.ok(resultMap);
+	}
+	
+	@PostMapping("/ajax/updateStatusTodo")
+	public ResponseEntity<Map<String, Object>> updateStatusTodo(@RequestParam Map<String, Object> map, HttpServletRequest request){
+		Map<String, Object> resultMap = new HashMap<>();
+		return ResponseEntity.ok(resultMap);
+	}
+}
