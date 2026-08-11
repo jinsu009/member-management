@@ -36,6 +36,10 @@
 			AND status = 'A'
             AND user_id = #{id}
         </if>
+		<if test="type == 'checkPw'">
+			AND status = 'A'
+            AND user_pw = #{pw}
+        </if>
     </select>
 
     <!-- 회원 정보 수정 -->

@@ -160,6 +160,14 @@ public class UserService {
     public Map<String, Object> updateUserInfo(Map<String, Object> map){
         Map<String, Object> resultMap = new HashMap<>();
 		
+		Map<String, Object> loginUserInfo = (Map<String, Object>)request.getSession().getAttribute("userLoginInfo");
+		if(loginUserInfo == null){
+			resultMap.put("resultCd", "E000");
+			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
+			return resultMap;
+		}
+		map.put("userSeq", loginUserInfo.get("seq"));
+		
 		String newEmailStr = map.get("email") != null ? map.get("email").toString() : null;
 		if(newEmailStr == null){
 			resultMap.put("resultCd", "E001");
@@ -185,7 +193,7 @@ public class UserService {
      * @return
      */
 	public Map<String, Object> userCheckId(Map<String, Object> map, HttpServletRequest request){
-		Map<String, Object> resultMap = new HashMap();
+		Map<String, Object> resultMap = userMapper.selectUserInfo(map);
 	
 		if(resultMap == null){
 			resultMap.put("resultCd", "S");
@@ -193,6 +201,26 @@ public class UserService {
 		}else{
 			resultMap.put("resultCd", "F");
 			resultMap.put("resultMsg", "이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
+		}
+		
+		return resultMap;
+	}
+	
+	 /**
+     * 마이페이지 진입시 비밀번호 확인
+     * @param map
+     * @param request
+     * @return
+     */
+	public Map<String, Object> userCheckPw(Map<String, Object> map, HttpServletRequest request){
+		Map<String, Object> resultMap = userMapper.selectUserInfo(map);
+	
+		if(resultMap == null){
+			resultMap.put("resultCd", "F");
+			resultMap.put("resultMsg", "비밀번호 틀림");
+		}else{
+			resultMap.put("resultCd", "S");
+			resultMap.put("resultMsg", "조회 성공");
 		}
 		
 		return resultMap;
@@ -224,6 +252,29 @@ public class UserService {
             resultMap.put("resultMsg", "이미 사용중인 ID입니다.\n다른 ID를 입력해주세요.");
         }
 
+        return resultMap;
+    }
+	
+	public Map<String, Object> userResign(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap();
+		
+		Map<String, Object> loginUserInfo = (Map<String, Object>)request.getSession().getAttribute("userLoginInfo");
+		if(loginUserInfo == null){
+			resultMap.put("resultCd", "E000");
+			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
+			return resultMap;
+		}
+		map.put("userSeq", loginUserInfo.get("seq"));
+		
+		int result = userMapper.resignUser(map);
+        if(result > 0){
+            resultMap.put("resultCd", "S");
+			resultMap.put("resultMsg", "사용자 탈퇴 성공");
+        }else{
+            resultMap.put("resultCd", "F");
+			resultMap.put("resultMsg", "사용자 탈퇴 실패");
+        }
+		
         return resultMap;
     }
 

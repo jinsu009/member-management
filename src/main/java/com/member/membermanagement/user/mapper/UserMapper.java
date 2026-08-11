@@ -12,4 +12,6 @@ public interface UserMapper {
     Map<String, Object> selectUserInfo(Map<String, Object> map);
 
     int updateUserInfo(Map<String, Object> map);
+	
+	int resignUser(Map<String, Object> map);
 }

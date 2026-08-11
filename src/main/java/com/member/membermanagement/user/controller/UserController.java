@@ -79,10 +79,22 @@ public class UserController {
         Map<String, Object> resultMap = userService.userCheckId(map);
         return ResponseEntity.ok(resultMap);
     }
+	
+	@PostMapping("/ajax/userCheckPw")
+	public ResponseEntity<Map<String, Object>> userCheckPw(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = userService.userCheckPw(map);
+        return ResponseEntity.ok(resultMap);
+    }
 
     @PostMapping("/ajax/searchUserId")
     public ResponseEntity<Map<String, Object>> searchUserId(@RequestBody Map<String, Object> map, HttpServletRequest request){
         Map<String, Object> resultMap = userService.searchUserId(map);
+        return ResponseEntity.ok(resultMap);
+    }
+	
+	@PostMapping("/ajax/userResign")
+    public ResponseEntity<Map<String, Object>> userResign(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = userService.userResign(map);
         return ResponseEntity.ok(resultMap);
     }
 
