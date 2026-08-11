@@ -99,11 +99,29 @@ public class AdminService {
 
     public Map<String, Object> updateUserInfo(Map<String, Object> map) {
         Map<String, Object> resultMap = new HashMap<>();
+		
+		String userSeq = map.get("seq") != null ? map.get("seq").toString() : null;
+		if(userSeq == null){
+			logger.error(" updateUserInfo Error : userSeq is null");
+			resultMap.put("resultCd","E");
+			resultMap.put("resultMsg", "요청값 누락");
+			return resultMap;
+		}
+		
+		if(map.get("status") == null){
+			logger.error(" updateUserInfo Error : status is null");
+			resultMap.put("resultCd","E");
+			resultMap.put("resultMsg", "요청값 누락");
+			return resultMap;
+		}
+		
         int result = adminMapper.updateUserInfo(map);
         if(result > 0){
             resultMap.put("resultCd", "S");
+			resultMap.put("resultMsg", "사용자 정보 수정 성공");
         }else{
             resultMap.put("resultCd", "F");
+			resultMap.put("resultMsg", "사용자 정보 수정 실패");
         }
         return resultMap;
     }
