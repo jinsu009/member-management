@@ -33,6 +33,7 @@
             AND seq = #{seq}
         </if>
         <if test="type == 'checkId'">
+			AND status = 'A'
             AND user_id = #{id}
         </if>
     </select>
@@ -57,18 +58,29 @@
             <if test="birthDt != null and birthDt != ''">
                 birth_dt = #{birthDt},
             </if>
+			 mod_dt = NOW()
         </set>
         WHERE seq = #{seq}
     </update>
-
+	
+	<!-- 회원 탈퇴 -->
+    <update id="resignUser" parameterType="map">
+        /* userDAO.resignUser */
+        UPDATE member.user_info
+		SET
+			status = 'R',
+			mod_dt = NOW()
+        WHERE seq = #{seq}
+    </update>
+	
 	<!-- 회원 todo 조회 -->
 	<select id="selectTodo" parameterType="map" resultType="map">
         /* userDAO.selectTodo */
         SELECT
             seq,
             user_seq,
+			category,
             title,
-			memo,
             status,
             DATE_FORMAT(reg_dt, '%Y-%m-%d %H:%i:%s') as regDt,
             DATE_FORMAT(mod_dt, '%Y-%m-%d %H:%i:%s') as modDt,
@@ -86,8 +98,8 @@
 		INSERT INTO member.user_todo
 		(
 			user_seq,
+			category,
 			title,
-			memo,
 			status,
 			reg_dt,
 			mod_dt,
@@ -96,8 +108,8 @@
 		VALUES
 		(
 			#{userSeq},
+			#{category},
 			#{title},
-			#{memo},
 			#{status},
 			NOW(),
 			NOW(),
@@ -105,14 +117,13 @@
 		)
 	</insert>
 
-
 	<!-- 사용자 todo 수정 -->
 	<update id="updateTodo" parameterType="map">
 		/* userDAO.updateTodo */
 		UPDATE member.user_todo
 		SET
+			category = #{category},
 			title = #{title},
-			memo = #{memo},
 			status = #{status},
 			mod_dt = NOW()
 		WHERE seq = #{seq}
