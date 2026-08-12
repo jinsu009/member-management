@@ -1,0 +1,37 @@
+.admin-list__user-link {
+  padding: 0;
+
+  color: #1677ff;
+  background: transparent;
+  border: 0;
+
+  font-size: inherit;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.admin-list__user-link:hover {
+  text-decoration: underline;
+}
+
+.admin-user-status-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  padding: 10px 0;
+}
+
+.admin-user-status-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-user-status-modal__label {
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 600;
+}

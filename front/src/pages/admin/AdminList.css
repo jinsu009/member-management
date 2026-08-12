@@ -1,0 +1,105 @@
+/* AdminListPage.css */
+
+/* =========================
+   Header
+========================= */
+
+.admin-list-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+/* 기존 admin-list__title에 margin이 있다면 제거 */
+.admin-list-page__header .admin-list__title {
+  margin: 0;
+}
+
+/* =========================
+   관리자 아이디
+========================= */
+
+.admin-list-page__id-button {
+  padding: 0;
+
+  color: #1677ff;
+  background: transparent;
+  border: 0;
+
+  font-size: inherit;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.admin-list-page__id-button:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   관리자 추가 Modal
+========================= */
+
+.admin-add-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 10px 0;
+}
+
+.admin-add-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.admin-add-modal__field label {
+  color: #444444;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================
+   관리자 상태 변경 Modal
+========================= */
+
+.admin-status-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  padding: 10px 0;
+}
+
+.admin-status-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-status-modal__label {
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 760px) {
+  .admin-list-page__header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-list-page__header > button {
+    align-self: flex-end;
+  }
+}
