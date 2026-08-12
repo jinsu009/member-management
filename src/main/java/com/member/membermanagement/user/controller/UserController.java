@@ -62,39 +62,39 @@ public class UserController {
         return ResponseEntity.ok(resultMap);
     }
 
-    @PostMapping("/ajax/getUserInfo")
-    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.getUserInfo(map);
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<Map<String, Object>> getUserInfo(HttpServletRequest request){
+        Map<String, Object> resultMap = userService.getUserInfo(request);
         return ResponseEntity.ok(resultMap);
     }
 
     @PostMapping("/ajax/updateUserInfo")
     public ResponseEntity<Map<String, Object>> updateUserInfo(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.updateUserInfo(map);
+        Map<String, Object> resultMap = userService.updateUserInfo(map, request);
         return ResponseEntity.ok(resultMap);
     }
 	
 	@PostMapping("/ajax/userCheckId")
 	public ResponseEntity<Map<String, Object>> checkUserId(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.userCheckId(map);
+        Map<String, Object> resultMap = userService.userCheckId(map, request);
         return ResponseEntity.ok(resultMap);
     }
 	
 	@PostMapping("/ajax/userCheckPw")
 	public ResponseEntity<Map<String, Object>> userCheckPw(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.userCheckPw(map);
+        Map<String, Object> resultMap = userService.userCheckPw(map, request);
         return ResponseEntity.ok(resultMap);
     }
 
     @PostMapping("/ajax/searchUserId")
     public ResponseEntity<Map<String, Object>> searchUserId(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.searchUserId(map);
+        Map<String, Object> resultMap = userService.searchUserId(map, request);
         return ResponseEntity.ok(resultMap);
     }
 	
 	@PostMapping("/ajax/userResign")
     public ResponseEntity<Map<String, Object>> userResign(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        Map<String, Object> resultMap = userService.userResign(map);
+        Map<String, Object> resultMap = userService.userResign(map, request);
         return ResponseEntity.ok(resultMap);
     }
 

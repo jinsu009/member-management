@@ -17,8 +17,8 @@
         /* userDAO.getUserInfo */
         SELECT
             seq,
-            user_id,
-            user_pw,
+            user_id as userId,
+            user_pw as userPw,
             name,
             email,
             phone,
@@ -29,15 +29,14 @@
             use_yn
         FROM member.user_info
         WHERE 1 = 1
+            AND status = 'A'
         <if test="type == null or type == ''">
             AND seq = #{seq}
         </if>
         <if test="type == 'checkId'">
-			AND status = 'A'
             AND user_id = #{id}
         </if>
 		<if test="type == 'checkPw'">
-			AND status = 'A'
             AND user_pw = #{pw}
         </if>
     </select>
@@ -74,7 +73,7 @@
 		SET
 			status = 'R',
 			mod_dt = NOW()
-        WHERE seq = #{seq}
+        WHERE 1=1 AND seq = #{seq} AND status = 'A'
     </update>
 	
 	<!-- 회원 todo 조회 -->

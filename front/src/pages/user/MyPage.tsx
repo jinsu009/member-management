@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import "./MyPage.css";
+import { useNavigate } from "react-router-dom";
 
 interface UserInfo {
   name: string;
@@ -8,6 +9,8 @@ interface UserInfo {
 }
 
 function MyPage() {
+  const navigation = useNavigate();
+
   const [userInfo, setUserInfo] = useState<UserInfo>({
     name: "",
     email: "",
@@ -16,23 +19,27 @@ function MyPage() {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [newEmail, setNewEmail] = useState("");
 
+  const validationEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      return false;
+    }
+    return true;
+  };
+
   // 사용자 정보 조회
   const getUserInfo = async () => {
     try {
-      const resp = await fetch(
-        "http://localhost:8080/user/ajax/getUserInfo",
-        {
-          method: "GET",
-          credentials: "include",
-        },
-      );
+      const resp = await fetch("http://localhost:8080/user/getUserInfo", {
+        method: "GET",
+        credentials: "include",
+      });
 
       const result = await resp.json();
-
-      if (result.resultCd === "S") {
+      if (result.seq != null) {
         setUserInfo({
-          name: result.userInfo.name,
-          email: result.userInfo.email,
+          name: result.name,
+          email: result.email,
         });
       }
     } catch (error) {
@@ -56,6 +63,11 @@ function MyPage() {
   const updateEmail = async () => {
     if (!newEmail.trim()) {
       alert("이메일을 입력해주세요.");
+      return;
+    }
+
+    if (validationEmail(newEmail)) {
+      alert("올바른 이메일 형식이 아닙니다.");
       return;
     }
 
@@ -104,13 +116,10 @@ function MyPage() {
     }
 
     try {
-      const resp = await fetch(
-        "http://localhost:8080/user/ajax/logout",
-        {
-          method: "POST",
-          credentials: "include",
-        },
-      );
+      const resp = await fetch("http://localhost:8080/user/ajax/logout", {
+        method: "POST",
+        credentials: "include",
+      });
 
       const result = await resp.json();
 
@@ -131,25 +140,25 @@ function MyPage() {
     if (!isConfirm) {
       return;
     }
-	
-	 try {
-      const resp = await fetch(
-        "http://localhost:8080/user/ajax/userResign",
-        {
-          method: "POST",
-          credentials: "include",
+
+    try {
+      const resp = await fetch("http://localhost:8080/user/ajax/userResign", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({}),
+      });
 
-	const res = await resp.json();
+      const res = await resp.json();
 
-	if(res.resultCd === 'S'){
-		alert("탈퇴성공. 메인페이지로 이동합니다.");
-		 navigation("/main");
-	}else{
-		alert("회원 탈퇴에 실패했습니다.");
-	}
-      
+      if (res.resultCd === "S") {
+        alert("탈퇴성공. 메인페이지로 이동합니다.");
+        navigation("/main");
+      } else {
+        alert("회원 탈퇴에 실패했습니다.");
+      }
     } catch (error) {
       console.error("logout error", error);
     }
@@ -234,10 +243,7 @@ function MyPage() {
       {/* 이메일 수정 Modal */}
       {isEmailModalOpen && (
         <div className="mypage-modal">
-          <div
-            className="mypage-modal__background"
-            onClick={closeEmailModal}
-          />
+          <div className="mypage-modal__background" onClick={closeEmailModal} />
 
           <div
             className="mypage-modal__content"

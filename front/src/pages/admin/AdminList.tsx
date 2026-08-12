@@ -10,7 +10,7 @@ import {
 } from "antd";
 
 import "@/assets/css/admin/AdminList.css";
-import "./AdminListPage.css";
+import "./AdminList.css";
 
 interface AdminInfo {
   seq: number;
@@ -62,8 +62,7 @@ function AdminList() {
 
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
 
-  const [selectedAdmin, setSelectedAdmin] =
-    useState<AdminInfo | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<AdminInfo | null>(null);
 
   const [selectedStatus, setSelectedStatus] = useState("");
 
@@ -142,17 +141,14 @@ function AdminList() {
     };
 
     try {
-      const resp = await fetch(
-        "http://localhost:8080/admin/ajax/insertAdmin",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(param),
+      const resp = await fetch("http://localhost:8080/admin/ajax/insertAdmin", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(param),
+      });
 
       const result = await resp.json();
 
@@ -436,9 +432,7 @@ function AdminList() {
             검색
           </Button>
 
-          <Button onClick={searchReset}>
-            초기화
-          </Button>
+          <Button onClick={searchReset}>초기화</Button>
         </Space>
       </div>
 
@@ -470,27 +464,18 @@ function AdminList() {
         open={isAddModalOpen}
         onCancel={closeAddModal}
         footer={[
-          <Button
-            key="cancel"
-            onClick={closeAddModal}
-          >
+          <Button key="cancel" onClick={closeAddModal}>
             취소
           </Button>,
 
-          <Button
-            key="save"
-            type="primary"
-            onClick={insertAdmin}
-          >
+          <Button key="save" type="primary" onClick={insertAdmin}>
             저장
           </Button>,
         ]}
       >
         <div className="admin-add-modal">
           <div className="admin-add-modal__field">
-            <label htmlFor="adminId">
-              아이디
-            </label>
+            <label htmlFor="adminId">아이디</label>
 
             <Input
               id="adminId"
@@ -506,9 +491,7 @@ function AdminList() {
           </div>
 
           <div className="admin-add-modal__field">
-            <label htmlFor="adminPw">
-              비밀번호
-            </label>
+            <label htmlFor="adminPw">비밀번호</label>
 
             <Input.Password
               id="adminPw"
@@ -524,9 +507,7 @@ function AdminList() {
           </div>
 
           <div className="admin-add-modal__field">
-            <label htmlFor="adminName">
-              이름
-            </label>
+            <label htmlFor="adminName">이름</label>
 
             <Input
               id="adminName"
@@ -542,9 +523,7 @@ function AdminList() {
           </div>
 
           <div className="admin-add-modal__field">
-            <label htmlFor="authLevel">
-              관리자 권한
-            </label>
+            <label htmlFor="authLevel">관리자 권한</label>
 
             <Select
               id="authLevel"
@@ -580,36 +559,24 @@ function AdminList() {
         open={isStatusModalOpen}
         onCancel={closeStatusModal}
         footer={[
-          <Button
-            key="cancel"
-            onClick={closeStatusModal}
-          >
+          <Button key="cancel" onClick={closeStatusModal}>
             취소
           </Button>,
 
-          <Button
-            key="save"
-            type="primary"
-            onClick={updateAdminStatus}
-          >
+          <Button key="save" type="primary" onClick={updateAdminStatus}>
             저장
           </Button>,
         ]}
       >
         <div className="admin-status-modal">
           <div className="admin-status-modal__field">
-            <span className="admin-status-modal__label">
-              관리자 아이디
-            </span>
+            <span className="admin-status-modal__label">관리자 아이디</span>
 
             <strong>{selectedAdmin?.id}</strong>
           </div>
 
           <div className="admin-status-modal__field">
-            <label
-              className="admin-status-modal__label"
-              htmlFor="adminStatus"
-            >
+            <label className="admin-status-modal__label" htmlFor="adminStatus">
               관리자 상태
             </label>
 
@@ -617,9 +584,7 @@ function AdminList() {
               id="adminStatus"
               value={selectedStatus}
               style={{ width: "100%" }}
-              onChange={(value) =>
-                setSelectedStatus(value)
-              }
+              onChange={(value) => setSelectedStatus(value)}
               options={[
                 {
                   value: "1",

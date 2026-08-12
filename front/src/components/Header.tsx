@@ -1,77 +1,70 @@
-import { CalendarDays } from "lucide-react";
+import { User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import flowerIcon from "@/assets/images/icons/flower.png";
 
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import "./Header.css";
+import { useState, useEffect } from "react";
 
-type HeaderProps = {
-  isLogin: boolean;
-};
-
-function Header(prop: HeaderProps) {
+function Header() {
   const navigate = useNavigate();
 
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isLogin, setIsLogin] = useState(false);
 
-  const formattedTime = `
-  ${currentTime.getFullYear()}년 ${currentTime.getMonth() + 1}월 ${currentTime.getDate()}일 
-  ${String(currentTime.getHours()).padStart(2, "0")}:${String(currentTime.getMinutes()).padStart(2, "0")}:${String(currentTime.getSeconds()).padStart(2, "0")}`;
-
-  async function logout() {
-    const resp = await fetch("http://localhost:8080/user/ajax/logout", {
-      method: "POST",
+  async function checkLogin() {
+    const resp = await fetch("http://localhost:8080/user/login/status", {
+      method: "GET",
       credentials: "include",
     });
     const result = await resp.json();
-    if (!result.isLogin) window.location.reload();
+    if (result.isLogin) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
   }
 
+  const movePage = () => {
+    if (isLogin) {
+      navigate("/checkPw");
+    } else {
+      const isConfirm = window.confirm(
+        "로그아웃 상태입니다. 로그인 페이지로 이동하시겠습니까?",
+      );
+      if (isConfirm) navigate("/login");
+    }
+  };
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
+    checkLogin();
   }, []);
 
   return (
     <header className="user-header">
-      <div
-        className="user-header__title-area"
-        onClick={() => {
-          navigate("/main");
-        }}
+      {/* Logo */}
+      <button
+        type="button"
+        className="user-header__logo"
+        onClick={() => navigate("/main")}
+        aria-label="메인으로 이동"
       >
         <img
           className="user-header__flower"
           src={flowerIcon}
-          alt="flowerIcon"
+          alt=""
           aria-hidden="true"
         />
-        <h1 className="user-header__title">프로젝트 제목 (미정)</h1>
-      </div>
+      </button>
 
-      <div className="user-header__side_wrap">
-        <div className="user-header__date">
-          <CalendarDays size={25} aria-hidden="true" />
-          <time dateTime={currentTime.toISOString()}>{formattedTime}</time>
-        </div>
-        <div className="user-header__btn_wrap">
-          {prop.isLogin ? (
-            <button onClick={logout}>로그아웃</button>
-          ) : (
-            <button
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              로그인
-            </button>
-          )}
-        </div>
-      </div>
+      {/* User */}
+      <button
+        type="button"
+        className="user-header__user"
+        onClick={movePage}
+        aria-label="회원 정보 관리"
+      >
+        <User size={28} strokeWidth={1.8} aria-hidden="true" />
+      </button>
     </header>
   );
 }

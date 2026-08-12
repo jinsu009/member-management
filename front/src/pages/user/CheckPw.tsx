@@ -1,50 +1,58 @@
+import { LockKeyhole } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./CheckPw.css";
 
 function CheckPw() {
-	
+  const navigation = useNavigate();
+
   const [loginInfo, setLoginInfo] = useState({
-    pw: ""
+    pw: "",
+    type: "",
   });
-	
-	const ajaxCheckPw = async () => {
-	if (!loginInfo.pw.trim()) {
+
+  const ajaxCheckPw = async () => {
+    if (!loginInfo.pw.trim()) {
       alert("비밀번호를 입력해주세요.");
       return;
     }
-	
-  try {
-    const resp = await fetch("http://localhost:8080/user/ajax/userCheckPw", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(loginInfo),
-    });
 
-    const result = await resp.json();
+    loginInfo.type = "checkPw";
 
-    if (result.resultCd === "S") {
-      navigation("/myPage");
-    } else {
-      alert("잘못된 비밀번호");
+    try {
+      const resp = await fetch("http://localhost:8080/user/ajax/userCheckPw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(loginInfo),
+      });
+
+      const result = await resp.json();
+
+      if (result.resultCd === "S") {
+        navigation("/myPage");
+      } else {
+        alert("잘못된 비밀번호입니다.");
+      }
+    } catch (error) {
+      console.error("password check error", error);
+      alert("비밀번호 확인 중 오류가 발생했습니다.");
     }
-  } catch (error) {
-    console.error("login error", error);
-  }
-};
-	
+  };
+
   return (
-	 <main className="check-pw-page">
+    <main className="check-pw-page">
       <section className="check-pw-card">
         <div className="check-pw-icon">
-          <LockKeyhole size={34} strokeWidth={1.8} />
+          <LockKeyhole size={34} strokeWidth={1.8} aria-hidden="true" />
         </div>
 
         <div className="check-pw-heading">
           <h1>비밀번호 확인</h1>
+
           <p>
             회원정보 보호를 위해
             <br />
@@ -63,16 +71,17 @@ function CheckPw() {
               value={loginInfo.pw}
               placeholder="비밀번호를 입력하세요"
               onChange={(e) => {
-                setLoginInfo({
-                  ...loginInfo,
+                setLoginInfo((prev) => ({
+                  ...prev,
                   pw: e.target.value,
-                });
+                }));
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   ajaxCheckPw();
                 }
               }}
+              autoFocus
             />
           </div>
 

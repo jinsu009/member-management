@@ -13,11 +13,11 @@ function UserLayout() {
       path: "/todo",
       icon: ListTodo,
     },
-    {
-      label: "내 정보",
-      path: "/myPage",
-      icon: UserRound,
-    },
+    // {
+    //   label: "내 정보",
+    //   path: "/checkPw",
+    //   icon: UserRound,
+    // },
   ];
 
   const [isLogin, setIsLogin] = useState(false);

@@ -1,269 +1,457 @@
-:root {
-  --main-primary: #929fc1;
-  --main-primary-dark: #6f63bd;
-  --main-primary-deep: #6556b3;
-  --main-primary-light: #eeeafe;
-
-  --main-accent: #f2d965;
-  --main-accent-light: #fff8cf;
-
-  --main-cream: #fefef2;
-  --main-white: #ffffff;
-
-  --main-text: #34323f;
-  --main-sub-text: #787683;
-
-  --main-border: #e4e1ef;
-  --main-shadow: 0 8px 26px rgb(77 64 136 / 8%);
-}
-
 .main-page {
   width: 100%;
-  min-height: 100vh;
-  padding: 24px;
-
-  color: var(--main-text);
-  background: #fbfbfa;
+  min-height: 100%;
 }
-
-.main-container {
-  width: min(1440px, 100%);
-  margin: 0 auto;
-}
-
-/* =========================
-   Body Layout
-========================= */
-
-.main-body {
-  display: grid;
-  grid-template-columns: 330px minmax(0, 1fr);
-  gap: 24px;
-  margin-top: 28px;
-}
-
-/* =========================
-   Main Content
-========================= */
 
 .main-content {
-  min-width: 0;
-}
+  width: 100%;
 
-.main-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.summary-card {
-  min-height: 380px;
-  padding: 28px;
-
-  background: var(--main-white);
-  border: 1px solid var(--main-border);
-  border-radius: 22px;
-  box-shadow: var(--main-shadow);
-}
-
-.summary-card-title {
-  margin: 0;
-
-  color: var(--main-primary-dark);
-
-  font-size: 26px;
-  font-weight: 700;
-}
-
-.summary-card-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 290px;
-  text-align: center;
-}
-
-.summary-icon-circle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 180px;
-  height: 180px;
-
-  color: var(--main-primary-dark);
-  background: linear-gradient(135deg, #f4f2ff 0%, #e6e8f7 100%);
-  border-radius: 50%;
-}
-
-.summary-number {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
-
-  color: var(--main-primary-dark);
-}
-
-.summary-number strong {
-  font-size: 68px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.summary-number span {
-  padding-bottom: 8px;
-
-  color: var(--main-text);
-
-  font-size: 25px;
-  font-weight: 500;
-}
-
-.summary-card-content p {
-  margin: 12px 0 0;
-
-  color: var(--main-sub-text);
-
-  font-size: 17px;
-}
-
-.calendar-button {
-  min-width: 210px;
-  height: 58px;
-  margin-top: 20px;
-  padding: 0 32px;
-
-  color: var(--main-white);
-  background: linear-gradient(
-    135deg,
-    var(--main-primary-dark),
-    var(--main-primary-deep)
-  );
-  border-radius: 12px;
-
-  font-size: 19px;
-  font-weight: 700;
-  cursor: pointer;
-
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-
-.calendar-button:hover {
-  box-shadow: 0 10px 22px rgb(101 86 179 / 22%);
-  transform: translateY(-2px);
+  gap: 16px;
 }
 
 /* =========================
-   Today Todo List
+   Todo 카테고리 영역
 ========================= */
 
-.today-card {
-  margin-top: 24px;
-  padding: 30px 36px 34px;
+.todo-type-section {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
 
-  background: var(--main-white);
-  border: 1px solid var(--main-border);
-  border-radius: 22px;
-  box-shadow: var(--main-shadow);
+  align-items: start;
 }
 
-.today-card-title {
-  margin: 0 0 16px;
+/* =========================
+   Todo 카드
+========================= */
 
-  color: var(--main-primary-dark);
+.todo-type-card {
+  min-width: 0;
+  min-height: 430px;
+  padding: 20px;
 
-  font-size: 26px;
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+  border: 1px solid #e4e1ef;
+  border-radius: 18px;
+
+  box-shadow: 0 8px 24px rgb(77 64 136 / 7%);
 }
 
-.today-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+/* =========================
+   카드 Header
+========================= */
 
-.today-list-item {
+.todo-type-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-
-  min-height: 62px;
-  padding: 0 8px;
-
-  border-bottom: 1px dashed #dcd7ee;
-}
-
-.today-list-content {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  min-width: 0;
-}
-
-.today-list-content input {
-  flex-shrink: 0;
-
-  width: 24px;
-  height: 24px;
-  margin: 0;
-
-  accent-color: var(--main-primary-dark);
-  cursor: pointer;
-}
-
-.today-list-content label {
-  overflow: hidden;
-
-  color: #55525d;
-
-  font-size: 18px;
-  font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.today-list-item time {
-  flex-shrink: 0;
-
-  color: #565461;
-
-  font-size: 17px;
-}
-
-.today-more-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 10px;
 
-  width: 100%;
-  min-height: 58px;
-  margin-top: 30px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
 
-  color: var(--main-primary-dark);
-  background: linear-gradient(90deg, #f2f0fb 0%, #e8e7f5 100%);
-  border-radius: 12px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.todo-type-card__title {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #6f63bd;
+}
+
+.todo-type-card__title h2 {
+  margin: 0;
+
+  overflow: hidden;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.todo-type-card__header-right {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* =========================
+   완료 숨김
+========================= */
+
+.todo-filter__label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  padding: 5px 7px;
+
+  color: #666666;
+
+  background: #ffffff;
+  border: 1px solid #e4e1ef;
+  border-radius: 8px;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.todo-filter__label input {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+
+  accent-color: #6f63bd;
+
+  cursor: pointer;
+}
+
+/* =========================
+   완료 / 전체 개수
+========================= */
+
+.todo-type-card__count {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+
+  padding: 5px 8px;
+
+  color: #777777;
+
+  background: #f7f6fb;
+  border: 1px solid #eeecf5;
+  border-radius: 9px;
+
+  font-size: 13px;
+}
+
+.todo-type-card__count strong {
+  color: #6f63bd;
 
   font-size: 18px;
   font-weight: 700;
+}
+
+/* =========================
+   Todo List
+========================= */
+
+.todo-type-list {
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  margin: 0;
+  padding: 0 6px 0 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  list-style: none;
+}
+
+/* 스크롤 */
+.todo-type-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.todo-type-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.todo-type-list::-webkit-scrollbar-thumb {
+  background: #d8d3e8;
+  border-radius: 10px;
+}
+
+.todo-type-list::-webkit-scrollbar-thumb:hover {
+  background: #b7aee9;
+}
+
+/* Todo */
+.todo-type-list__item {
+  min-height: 48px;
+  padding: 0 13px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  background: #fefef2;
+  border: 1px solid #eee9d9;
+  border-radius: 10px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.todo-type-list__item:hover {
+  background: #fffef7;
+  border-color: #d7cfae;
+
+  transform: translateY(-1px);
+}
+
+.todo-type-list__content {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.todo-type-list__content input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+
+  flex-shrink: 0;
+  margin: 0;
+
+  accent-color: #6f63bd;
+}
+
+.todo-type-list__content label {
+  min-width: 0;
+
+  overflow: hidden;
+
+  color: #444444;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.todo-type-list__content input[type="checkbox"]:checked + label {
+  color: #aaaaaa;
+
+  text-decoration: line-through;
+}
+
+.todo-type-list__item time {
+  flex-shrink: 0;
+
+  color: #999999;
+
+  font-size: 12px;
+}
+
+/* 리스트가 없을 경우 */
+.todo-type-list__empty {
+  padding: 24px 10px;
+
+  color: #999999;
+
+  background: #fafafa;
+  border-radius: 10px;
+
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =========================
+   Todo 입력 영역
+========================= */
+
+.todo-add-area {
+  min-height: 56px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 12px;
+  padding: 8px;
+
+  background: #ffffff;
+  border: 1px dashed #b7aee9;
+  border-radius: 10px;
+}
+
+.todo-add-input {
+  min-width: 0;
+  flex: 1;
+
+  height: 36px;
+  padding: 0 10px;
+
+  color: #444444;
+
+  border: 1px solid #dedbe9;
+  border-radius: 8px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.todo-add-input:focus {
+  border-color: #929fc1;
+
+  box-shadow: 0 0 0 3px rgb(146 159 193 / 12%);
+}
+
+.todo-add-actions {
+  flex-shrink: 0;
+
+  display: flex;
+  gap: 5px;
+}
+
+.todo-add-cancel,
+.todo-add-save {
+  height: 36px;
+  padding: 0 10px;
+
+  border-radius: 7px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.todo-add-cancel {
+  color: #666666;
+
+  background: #ffffff;
+  border: 1px solid #dddddd;
+}
+
+.todo-add-save {
+  color: #ffffff;
+
+  background: #6f63bd;
+  border: 1px solid #6f63bd;
+}
+
+.todo-add-cancel:hover,
+.todo-add-save:hover {
+  opacity: 0.8;
+}
+
+/* =========================
+   각 카드 하단 +
+========================= */
+
+.todo-add-button {
+  width: 100%;
+  height: 40px;
+
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #6f63bd;
+
+  background: #f7f6fb;
+  border: 1px dashed #c7c0e7;
+  border-radius: 10px;
+
   cursor: pointer;
 
   transition:
     background-color 0.2s ease,
+    border-color 0.2s ease,
     transform 0.2s ease;
 }
 
-.today-more-button:hover {
-  background: #e0dcf5;
+.todo-add-button:hover {
+  background: #f1eefb;
+  border-color: #929fc1;
+
   transform: translateY(-1px);
+}
+
+/* =========================
+   마지막 + 카드
+========================= */
+
+.todo-type-card--add {
+  min-height: 430px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #faf9ff;
+  border: 2px dashed #c7c0e7;
+
+  box-shadow: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.todo-type-card--add:hover {
+  background: #f4f1ff;
+  border-color: #929fc1;
+}
+
+.todo-category-add-button {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  color: #6f63bd;
+
+  background: #ffffff;
+  border: 1px solid #e4e1ef;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  box-shadow: 0 5px 16px rgb(111 99 189 / 10%);
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.todo-category-add-button:hover {
+  background: #f4f1ff;
+
+  box-shadow: 0 7px 20px rgb(111 99 189 / 15%);
+
+  transform: scale(1.06);
 }
 
 /* =========================
@@ -271,25 +459,8 @@
 ========================= */
 
 @media (max-width: 1080px) {
-  .main-body {
-    grid-template-columns: 250px minmax(0, 1fr);
-  }
-
-  .main-navigation-item {
-    padding: 0 18px;
-    font-size: 18px;
-  }
-
-  .main-summary-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .summary-card {
-    min-height: 330px;
-  }
-
-  .summary-card-content {
-    min-height: 240px;
+  .todo-type-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -298,116 +469,55 @@
 ========================= */
 
 @media (max-width: 760px) {
-  .main-page {
-    padding: 16px;
-  }
-
-  .main-body {
-    display: block;
-    margin-top: 18px;
-  }
-
-  .main-sidebar {
-    min-height: auto;
-    padding: 14px;
-  }
-
-  .main-navigation {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .main-navigation-item {
-    justify-content: center;
-    gap: 8px;
-
-    min-height: 54px;
-    padding: 0 12px;
-
-    font-size: 15px;
-  }
-
   .main-content {
-    margin-top: 18px;
-  }
-
-  .main-summary-grid {
-    gap: 18px;
-  }
-
-  .summary-card {
-    min-height: auto;
-    padding: 22px;
-  }
-
-  .summary-card-title {
-    font-size: 22px;
-  }
-
-  .summary-card-content {
-    min-height: 250px;
-  }
-
-  .summary-icon-circle {
-    width: 140px;
-    height: 140px;
-  }
-
-  .summary-number strong {
-    font-size: 54px;
-  }
-
-  .today-card {
-    margin-top: 18px;
-    padding: 24px 18px;
-  }
-
-  .today-card-title {
-    font-size: 22px;
-  }
-
-  .today-list-item {
-    min-height: 58px;
-  }
-
-  .today-list-content {
     gap: 12px;
   }
 
-  .today-list-content input {
-    width: 21px;
-    height: 21px;
+  .todo-type-section {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .today-list-content label {
-    font-size: 15px;
+  .todo-type-card {
+    min-height: 410px;
+    padding: 16px;
+
+    border-radius: 16px;
   }
 
-  .today-list-item time {
-    font-size: 14px;
-  }
-}
-
-/* =========================
-   Small Mobile
-========================= */
-
-@media (max-width: 420px) {
-  .main-navigation-item span {
-    font-size: 14px;
-  }
-
-  .main-navigation-item svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .today-list-item {
+  .todo-type-card__header {
     align-items: flex-start;
-    padding: 14px 4px;
   }
 
-  .today-list-item time {
-    padding-top: 2px;
+  .todo-type-card__header-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .todo-type-card__title h2 {
+    font-size: 18px;
+  }
+
+  .todo-type-list {
+    height: 280px;
+  }
+
+  .todo-add-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .todo-add-actions {
+    justify-content: flex-end;
+  }
+
+  .todo-type-card--add {
+    min-height: 120px;
+    padding: 0;
+  }
+
+  .todo-category-add-button {
+    width: 56px;
+    height: 56px;
   }
 }

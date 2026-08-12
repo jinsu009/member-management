@@ -1,19 +1,14 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { Eye, EyeOff, LockKeyhole, User, UserRoundPlus } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { LockKeyhole, User, UserRoundPlus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 import userLockIcon from "@/assets/images/icons/user_lock_icon.png";
 import loginBackground from "@/assets/images/login_background.png";
-import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
 function Login() {
   const navigation = useNavigate();
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      ajaxLogin();
-    }
-  };
 
   const [loginInfo, setLoginInfo] = useState({
     userId: "",
@@ -21,27 +16,43 @@ function Login() {
   });
 
   const ajaxLogin = async () => {
-  try {
-    const resp = await fetch("http://localhost:8080/user/ajax/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(loginInfo),
-    });
-
-    const result = await resp.json();
-
-    if (result.resultCd === "S") {
-      navigation("/main");
-    } else {
-      alert("로그인 실패");
+    if (!loginInfo.userId.trim()) {
+      alert("아이디를 입력해주세요.");
+      return;
     }
-  } catch (error) {
-    console.error("login error", error);
-  }
-};
+
+    if (!loginInfo.userPw.trim()) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
+    try {
+      const resp = await fetch("http://localhost:8080/user/ajax/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(loginInfo),
+      });
+
+      const result = await resp.json();
+
+      if (result.resultCd === "S") {
+        navigation("/main");
+      } else {
+        alert("로그인 실패");
+      }
+    } catch (error) {
+      console.error("login error", error);
+    }
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    ajaxLogin();
+  };
 
   return (
     <main className="login-page">
@@ -60,7 +71,8 @@ function Login() {
               <p>아이디와 비밀번호를 입력해 주세요.</p>
             </div>
 
-            <div className="login-form">
+            {/* form으로 변경 */}
+            <form className="login-form" onSubmit={handleSubmit}>
               <div className="login-field">
                 <label htmlFor="userId">아이디</label>
 
@@ -79,7 +91,10 @@ function Login() {
                     autoComplete="username"
                     value={loginInfo.userId}
                     onChange={(e) => {
-                      setLoginInfo({ ...loginInfo, userId: e.target.value });
+                      setLoginInfo({
+                        ...loginInfo,
+                        userId: e.target.value,
+                      });
                     }}
                   />
                 </div>
@@ -103,24 +118,18 @@ function Login() {
                     autoComplete="current-password"
                     value={loginInfo.userPw}
                     onChange={(e) => {
-                      setLoginInfo({ ...loginInfo, userPw: e.target.value });
+                      setLoginInfo({
+                        ...loginInfo,
+                        userPw: e.target.value,
+                      });
                     }}
                   />
-
-                  <button className="password-toggle-button" type="button">
-                    {/* {showPassword ? (
-                      <EyeOff size={20} />
-                    ) : (
-                      <Eye size={20} />
-                    )} */}
-                  </button>
                 </div>
               </div>
 
               <div className="login-options">
                 <label className="save-id-label">
                   <input name="saveId" type="checkbox" />
-
                   <span>아이디 저장</span>
                 </label>
 
@@ -129,14 +138,10 @@ function Login() {
                 </button>
               </div>
 
-              <button
-                className="login-submit-button"
-                onClick={ajaxLogin}
-                onKeyDown={handleKeyDown}
-              >
+              <button className="login-submit-button" type="submit">
                 로그인
               </button>
-            </div>
+            </form>
 
             <div className="login-divider">
               <span>또는</span>

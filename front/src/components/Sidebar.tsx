@@ -1,7 +1,7 @@
-import { ListTodo, UserRound, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "./Sidebar.css";
-import { useNavigate } from "react-router-dom";
 
 type SidebarMenu = {
   label: string;
@@ -15,6 +15,7 @@ type SidebarProps = {
 
 function Sidebar({ menus }: SidebarProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <aside className="user-sidebar">
@@ -22,14 +23,19 @@ function Sidebar({ menus }: SidebarProps) {
         {menus.map((menu) => {
           const Icon = menu.icon;
 
+          const isActive = location.pathname === menu.path;
+
           return (
             <button
               key={menu.path}
-              className="user-sidebar__menu"
+              className={`user-sidebar__menu ${
+                isActive ? "user-sidebar__menu--active" : ""
+              }`}
               type="button"
               onClick={() => navigate(menu.path)}
             >
-              <Icon size={24} aria-hidden="true" />
+              <Icon size={21} strokeWidth={1.8} aria-hidden="true" />
+
               <span>{menu.label}</span>
             </button>
           );

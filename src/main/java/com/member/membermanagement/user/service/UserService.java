@@ -1,10 +1,12 @@
 package com.member.membermanagement.user.service;
 
 import com.member.membermanagement.user.mapper.UserMapper;
+import com.member.membermanagement.util.Util;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ public class UserService {
 
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
+    private Util util;
 
     /**
      * 회원 로그인
@@ -38,7 +42,7 @@ public class UserService {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("type", "checkId");
         paramMap.put("id", userId);
-        Map<String, Object> userInfo = userMapper.selectUserInfo(paramMap);
+        Map<String, Object> userInfo = userMapper.getUserInfo(paramMap);
         if(userInfo == null){
             resultMap.put("resultCd", "F");
             resultMap.put("resultMsg", "존재하지 않는 아이디입니다.");
@@ -133,25 +137,24 @@ public class UserService {
 
     /**
      * 사용자 정보 조회
-     * @param map
      * @param request
      * @return
      */
-    public Map<String, Object> getUserInfo(Map<String, Object> map, HttpServletRequest request){
+    public Map<String, Object> getUserInfo(HttpServletRequest request){
 		
 		Map<String, Object> resultMap = new HashMap();
 		
-		Map<String, Object> loginUserInfo = request.getSession().getAttribute("userLoginInfo");
+		Map<String, Object> loginUserInfo = (Map<String, Object>) request.getSession().getAttribute("userLoginInfo");
 		if(loginUserInfo == null){
 			resultMap.put("resultCd", "E000");
 			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
 			return resultMap;
 		}
+
+        Map<String, Object> map = new HashMap<>();
 		map.put("seq", loginUserInfo.get("seq"));
-		
-		resultMap.put("userInfo", userMapper.getUserInfo(map));
-		
-        return resultMap;
+
+        return userMapper.getUserInfo(map);
     }
 
     /**
@@ -159,16 +162,16 @@ public class UserService {
      * @param map
      * @return
      */
-    public Map<String, Object> updateUserInfo(Map<String, Object> map){
+    public Map<String, Object> updateUserInfo(Map<String, Object> map, HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
 		
-		Map<String, Object> loginUserInfo = (Map<String, Object>)request.getSession().getAttribute("userLoginInfo");
+		Map<String, Object> loginUserInfo = (Map<String, Object>) request.getSession().getAttribute("userLoginInfo");
 		if(loginUserInfo == null){
 			resultMap.put("resultCd", "E000");
 			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
 			return resultMap;
 		}
-		map.put("userSeq", loginUserInfo.get("seq"));
+		map.put("seq", loginUserInfo.get("seq"));
 		
 		String newEmailStr = map.get("email") != null ? map.get("email").toString() : null;
 		if(newEmailStr == null){
@@ -176,15 +179,25 @@ public class UserService {
 			resultMap.put("resultMsg", "변경 내용이 없습니다.");
 			return resultMap;
 		}
-		
-        int result = userMapper.updateUserInfo(map);
-        if(result > 0){
-            resultMap.put("resultCd", "S");
-			resultMap.put("resultMsg", "사용자 정보 변경 성공");
+
+        if(util.validationEmail(newEmailStr)){
+            System.out.println(" .... email : " + newEmailStr);
+
+            int result = userMapper.updateUserInfo(map);
+            if(result > 0){
+                resultMap.put("resultCd", "S");
+                resultMap.put("resultMsg", "사용자 정보 변경 성공");
+            }else{
+                resultMap.put("resultCd", "F");
+                resultMap.put("resultMsg", "사용자 정보 변경 실패");
+            }
         }else{
-            resultMap.put("resultCd", "F");
-			resultMap.put("resultMsg", "사용자 정보 변경 실패");
+            resultMap.put("resultCd", "E002");
+            resultMap.put("resultMsg", "유효하지 않은 이메일 형식입니다.");
+            return resultMap;
         }
+
+
         return resultMap;
     }
 
@@ -195,7 +208,7 @@ public class UserService {
      * @return
      */
 	public Map<String, Object> userCheckId(Map<String, Object> map, HttpServletRequest request){
-		Map<String, Object> resultMap = userMapper.selectUserInfo(map);
+		Map<String, Object> resultMap = userMapper.getUserInfo(map);
 	
 		if(resultMap == null){
 			resultMap.put("resultCd", "S");
@@ -215,9 +228,27 @@ public class UserService {
      * @return
      */
 	public Map<String, Object> userCheckPw(Map<String, Object> map, HttpServletRequest request){
-		Map<String, Object> resultMap = userMapper.selectUserInfo(map);
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String currentPw = "";
+
+        // 세션에 저장된 로그인 사용자 정보
+        Map<String, Object> loginUser = (Map<String, Object>) request.getSession().getAttribute("userLoginInfo");
+        if (loginUser == null) {
+            resultMap.put("resultCd", "E002");
+            resultMap.put("resultMsg", "로그인 정보가 없습니다.");
+            return resultMap;
+        }
+        currentPw = loginUser.get("userPw").toString();
+
+        String userPw = map.get("pw") != null ? map.get("pw").toString() : null;
+        if(userPw == null || userPw.isBlank()){
+            resultMap.put("resultCd", "E001");
+            resultMap.put("resultMsg", "비밀번호를 입력해주세요.");
+            return resultMap;
+        }
 	
-		if(resultMap == null){
+		if(passwordEncoder.matches(userPw, currentPw)){
 			resultMap.put("resultCd", "F");
 			resultMap.put("resultMsg", "비밀번호 틀림");
 		}else{
@@ -257,7 +288,7 @@ public class UserService {
         return resultMap;
     }
 	
-	public Map<String, Object> userResign(@RequestBody Map<String, Object> map, HttpServletRequest request){
+	public Map<String, Object> userResign(Map<String, Object> map, HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap();
 		
 		Map<String, Object> loginUserInfo = (Map<String, Object>)request.getSession().getAttribute("userLoginInfo");
@@ -266,12 +297,16 @@ public class UserService {
 			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
 			return resultMap;
 		}
-		map.put("userSeq", loginUserInfo.get("seq"));
-		
+		map.put("seq", loginUserInfo.get("seq"));
+        System.out.println(" .... seq :: " + loginUserInfo.get("seq"));
 		int result = userMapper.resignUser(map);
         if(result > 0){
             resultMap.put("resultCd", "S");
 			resultMap.put("resultMsg", "사용자 탈퇴 성공");
+
+            request.getSession().removeAttribute("userLoginInfo");
+            request.getSession().removeAttribute("isLogin");
+
         }else{
             resultMap.put("resultCd", "F");
 			resultMap.put("resultMsg", "사용자 탈퇴 실패");
