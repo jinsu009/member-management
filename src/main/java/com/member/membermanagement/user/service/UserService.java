@@ -142,14 +142,16 @@ public class UserService {
 		Map<String, Object> resultMap = new HashMap();
 		
 		Map<String, Object> loginUserInfo = request.getSession().getAttribute("userLoginInfo");
-		
 		if(loginUserInfo == null){
 			resultMap.put("resultCd", "E000");
 			resultMap.put("resultMsg", "로그인 정보가 없습니다.");
 			return resultMap;
 		}
+		map.put("seq", loginUserInfo.get("seq"));
 		
-        return userMapper.selectUserInfo(map);
+		resultMap.put("userInfo", userMapper.getUserInfo(map));
+		
+        return resultMap;
     }
 
     /**

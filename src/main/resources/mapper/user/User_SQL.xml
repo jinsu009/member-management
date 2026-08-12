@@ -13,8 +13,8 @@
     </insert>
 
     <!-- 회원 정보 조회 -->
-    <select id="selectUserInfo" parameterType="map" resultType="map">
-        /* userDAO.selectUserInfo */
+    <select id="getUserInfo" parameterType="map" resultType="map">
+        /* userDAO.getUserInfo */
         SELECT
             seq,
             user_id,
