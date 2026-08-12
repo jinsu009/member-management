@@ -1,0 +1,207 @@
+:root {
+  --check-primary: #929fc1;
+  --check-primary-dark: #6f7da9;
+  --check-primary-light: #e9ecf5;
+  --check-accent: #f2d965;
+  --check-accent-dark: #ddbf31;
+  --check-cream: #fefef2;
+  --check-white: #ffffff;
+  --check-text: #222534;
+  --check-sub-text: #717482;
+  --check-border: #d7d9e0;
+}
+
+.check-pw-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 24px;
+
+  background:
+    radial-gradient(
+      circle at left top,
+      rgb(146 159 193 / 70%) 0,
+      rgb(146 159 193 / 70%) 15%,
+      transparent 15.1%
+    ),
+    radial-gradient(
+      circle at right bottom,
+      rgb(146 159 193 / 65%) 0,
+      rgb(146 159 193 / 65%) 13%,
+      transparent 13.1%
+    ),
+    var(--check-cream);
+}
+
+.check-pw-card {
+  width: min(460px, 100%);
+  padding: 48px 44px;
+
+  background: var(--check-white);
+  border: 1px solid #e6e4dc;
+  border-radius: 24px;
+
+  box-shadow: 0 20px 60px rgb(54 62 92 / 14%);
+}
+
+/* 비밀번호 아이콘 */
+.check-pw-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 22px;
+
+  color: var(--check-primary-dark);
+
+  background: var(--check-primary-light);
+  border-radius: 50%;
+}
+
+/* 제목 영역 */
+.check-pw-heading {
+  margin-bottom: 32px;
+
+  text-align: center;
+}
+
+.check-pw-heading h1 {
+  margin: 0;
+
+  color: var(--check-primary-dark);
+
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.check-pw-heading p {
+  margin: 12px 0 0;
+
+  color: var(--check-sub-text);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Form */
+.check-pw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.check-pw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.check-pw-field label {
+  color: var(--check-text);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.check-pw-field input {
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+
+  color: var(--check-text);
+
+  background: var(--check-white);
+  border: 1px solid var(--check-border);
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.check-pw-field input::placeholder {
+  color: #adafb8;
+}
+
+.check-pw-field input:focus {
+  border-color: var(--check-primary);
+  box-shadow: 0 0 0 4px rgb(146 159 193 / 18%);
+}
+
+/* 확인 버튼 */
+.check-pw-submit {
+  width: 100%;
+  height: 52px;
+
+  color: #37331a;
+
+  background: var(--check-accent);
+  border: 0;
+  border-radius: 10px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.check-pw-submit:hover {
+  background: var(--check-accent-dark);
+
+  box-shadow: 0 8px 18px rgb(221 191 49 / 25%);
+
+  transform: translateY(-1px);
+}
+
+.check-pw-submit:active {
+  transform: translateY(0);
+}
+
+/* 모바일 */
+@media (max-width: 520px) {
+  .check-pw-page {
+    align-items: flex-start;
+
+    padding: 60px 16px;
+
+    background: var(--check-cream);
+  }
+
+  .check-pw-card {
+    padding: 36px 24px;
+
+    border-radius: 18px;
+  }
+
+  .check-pw-icon {
+    width: 68px;
+    height: 68px;
+  }
+
+  .check-pw-heading h1 {
+    font-size: 25px;
+  }
+
+  .check-pw-heading p {
+    font-size: 13px;
+  }
+
+  .check-pw-field input,
+  .check-pw-submit {
+    height: 50px;
+  }
+}
