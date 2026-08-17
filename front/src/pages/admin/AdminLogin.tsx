@@ -28,7 +28,7 @@ function AdminLogin() {
         body: JSON.stringify(loginInfo),
       });
       const result = await resp.json();
-      if (result.resultCd === "S") navigation("/admin");
+      if (result.resultCd === "S") navigation("/admin/userList");
       else alert("로그인실패");
     } catch (error) {
       console.error("login error");

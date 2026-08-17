@@ -96,7 +96,7 @@ function UserList() {
 
     try {
       const resp = await fetch(
-        "http://localhost:8080/admin/ajax/updateUserStatus",
+        "http://localhost:8080/admin/ajax/updateUserInfo",
         {
           method: "POST",
           credentials: "include",
@@ -114,7 +114,6 @@ function UserList() {
 
         closeStatusModal();
 
-        // 목록 재조회
         getUserList();
       } else {
         alert("회원 상태 변경에 실패했습니다.");
@@ -190,23 +189,20 @@ function UserList() {
     setLoading(true);
 
     try {
-      const resp = await fetch(
-        "http://localhost:8080/admin/ajax/getUserList",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            pageNo,
-            pageSize,
-            searchType,
-            searchKeyword,
-            status,
-          }),
+      const resp = await fetch("http://localhost:8080/admin/ajax/getUserList", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          pageNo,
+          pageSize,
+          searchType,
+          searchKeyword,
+          status,
+        }),
+      });
 
       const result = await resp.json();
 
@@ -341,27 +337,18 @@ function UserList() {
         open={isStatusModalOpen}
         onCancel={closeStatusModal}
         footer={[
-          <Button
-            key="cancel"
-            onClick={closeStatusModal}
-          >
+          <Button key="cancel" onClick={closeStatusModal}>
             취소
           </Button>,
 
-          <Button
-            key="save"
-            type="primary"
-            onClick={updateUserStatus}
-          >
+          <Button key="save" type="primary" onClick={updateUserStatus}>
             저장
           </Button>,
         ]}
       >
         <div className="admin-user-status-modal">
           <div className="admin-user-status-modal__field">
-            <span className="admin-user-status-modal__label">
-              회원 아이디
-            </span>
+            <span className="admin-user-status-modal__label">회원 아이디</span>
 
             <strong>{selectedUser?.id}</strong>
           </div>

@@ -1,22 +1,21 @@
 import { Outlet } from "react-router-dom";
-
 import "./AdminLayout.css";
 
 import { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import { Users, ShieldUser } from "lucide-react";
+import AdminHeader from "../components/admin/AdminHeader";
+import AdminSidebar from "../components/admin/AdminSidebar";
 
 function AdminLayout() {
   const adminMenus = [
     {
       label: "회원 관리",
-      path: "/admin/users",
+      path: "/admin/userList",
       icon: Users,
     },
     {
       label: "관리자 관리",
-      path: "/admin/admins",
+      path: "/admin/adminList",
       icon: ShieldUser,
     },
   ];
@@ -28,12 +27,10 @@ function AdminLayout() {
       method: "GET",
       credentials: "include",
     });
+
     const result = await resp.json();
-    if (result.isLogin) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
+
+    setIsLogin(result.isLogin);
   }
 
   useEffect(() => {
@@ -41,12 +38,14 @@ function AdminLayout() {
   }, []);
 
   return (
-    <div className="user-layout">
-      <div className="user-layout__container">
-        <Header isLogin={isLogin} />
-        <div className="user-layout__body">
-          <Sidebar menus={adminMenus} />
-          <main className="user-layout__content">
+    <div className="admin-layout">
+      <div className="admin-layout__container">
+        <AdminHeader isLogin={isLogin} />
+
+        <div className="admin-layout__body">
+          <AdminSidebar menus={adminMenus} />
+
+          <main className="admin-layout__content">
             <Outlet />
           </main>
         </div>

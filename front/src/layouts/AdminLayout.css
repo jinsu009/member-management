@@ -1,0 +1,148 @@
+/* =========================
+   Admin Layout
+========================= */
+
+.admin-layout {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #f5f6f8;
+
+  color: #333333;
+}
+
+.admin-layout__container {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-layout__body {
+  flex: 1;
+
+  display: flex;
+
+  min-height: 0;
+}
+
+.admin-layout__content {
+  flex: 1;
+
+  padding: 32px;
+
+  background-color: #f5f6f8;
+
+  overflow-y: auto;
+}
+
+/* =========================
+   Admin Header
+========================= */
+
+/*
+ Header 컴포넌트에서 사용하는 실제 클래스명이
+ .header라고 가정한 경우
+*/
+
+.admin-layout .header {
+  background-color: #ffffff;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-layout .header__logo {
+  color: #6f7da5;
+}
+
+.admin-layout .header__title {
+  color: #333333;
+}
+
+.admin-layout .header button {
+  color: #6f7da5;
+}
+
+/* =========================
+   Admin Sidebar
+========================= */
+
+/*
+ Sidebar 컴포넌트에서 사용하는 실제 클래스명이
+ .sidebar라고 가정한 경우
+*/
+
+.admin-layout .sidebar {
+  background-color: #ffffff;
+
+  border-right: 1px solid #e5e7eb;
+}
+
+/* 메뉴 */
+
+.admin-layout .sidebar__menu-item {
+  color: #555555;
+
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.admin-layout .sidebar__menu-item:hover {
+  background-color: #f1f3f9;
+
+  color: #6f7da5;
+}
+
+/* 현재 선택된 메뉴 */
+
+.admin-layout .sidebar__menu-item.active {
+  background-color: #eef0f7;
+
+  color: #6f7da5;
+
+  font-weight: 600;
+}
+
+/* 아이콘 */
+
+.admin-layout .sidebar__menu-item svg {
+  color: #929fc1;
+}
+
+/* =========================
+   Admin Common
+========================= */
+
+.admin-layout button.admin-primary-button {
+  border: none;
+  border-radius: 6px;
+
+  background-color: #929fc1;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition: opacity 0.2s;
+}
+
+.admin-layout button.admin-primary-button:hover {
+  opacity: 0.9;
+}
+
+/* 링크 */
+
+.admin-layout a {
+  transition: color 0.2s;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+  .admin-layout__content {
+    padding: 20px;
+  }
+}

@@ -39,6 +39,17 @@ public class AdminController {
         return resultMap;
     }
 
+    @PostMapping("/ajax/logout")
+    public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        request.getSession().removeAttribute("adminLoginInfo");
+        request.getSession().removeAttribute("isLogin");
+
+        resultMap.put("isLogin", false);
+        return ResponseEntity.ok(resultMap);
+    }
+
     @PostMapping("/ajax/getAdminList")
     public ResponseEntity<Map<String, Object>> getAdminList(@RequestBody Map<String, Object> map, HttpServletRequest request){
         Map<String, Object> resultMap = adminService.getAdminList(map);

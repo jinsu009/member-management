@@ -8,6 +8,7 @@ import AdminLogin from "../pages/admin/AdminLogin";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminList from "../pages/admin/AdminList";
 import UserList from "../pages/admin/UserList";
+import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
 
 function Router() {
   return (
@@ -21,7 +22,7 @@ function Router() {
       {/* 일반 사용자 영역 */}
       <Route element={<UserLayout />}>
         <Route path="/main" element={<Main />} />
-		<Route path="/checkPw" element={<CheckPw />} />
+        <Route path="/checkPw" element={<CheckPw />} />
         <Route path="/myPage" element={<MyPage />} />
       </Route>
 
@@ -29,9 +30,11 @@ function Router() {
       <Route path="/admin/login" element={<AdminLogin />} />
 
       {/* 관리자 영역 */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route path="users" element={<UserList />} />
-        <Route path="admins" element={<AdminList />} />
+      <Route element={<AdminProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="userList" element={<UserList />} />
+          <Route path="adminList" element={<AdminList />} />
+        </Route>
       </Route>
     </Routes>
   );
