@@ -17,7 +17,7 @@ interface AdminInfo {
   id: string;
   name: string;
   authLevel: string;
-  status: string;
+  status: number;
   lastLoginDt: string;
   regDt: string;
   modDt: string;
@@ -64,18 +64,18 @@ function AdminList() {
 
   const [selectedAdmin, setSelectedAdmin] = useState<AdminInfo | null>(null);
 
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState<number>();
 
   /* =========================
      상태명
   ========================= */
 
-  const getStatusLabel = (status: string) => {
+  const getStatusLabel = (status: number) => {
     switch (status) {
-      case "1":
+      case 1:
         return "활동";
 
-      case "2":
+      case 2:
         return "정지";
 
       default:
@@ -180,7 +180,7 @@ function AdminList() {
 
   const closeStatusModal = () => {
     setSelectedAdmin(null);
-    setSelectedStatus("");
+    setSelectedStatus(1);
     setIsStatusModalOpen(false);
   };
 
@@ -200,17 +200,14 @@ function AdminList() {
     };
 
     try {
-      const resp = await fetch(
-        "http://localhost:8080/admin/ajax/updateAdminStatus",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(param),
+      const resp = await fetch("http://localhost:8080/admin/ajax/updateAdmin", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(param),
+      });
 
       const result = await resp.json();
 
@@ -288,7 +285,7 @@ function AdminList() {
       title: "상태",
       dataIndex: "status",
       key: "status",
-      render: (status: string) => getStatusLabel(status),
+      render: (status: number) => getStatusLabel(status),
     },
     {
       title: "등록일",
@@ -587,11 +584,11 @@ function AdminList() {
               onChange={(value) => setSelectedStatus(value)}
               options={[
                 {
-                  value: "1",
+                  value: 1,
                   label: "활동",
                 },
                 {
-                  value: "2",
+                  value: 2,
                   label: "정지",
                 },
               ]}

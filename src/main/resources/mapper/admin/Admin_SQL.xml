@@ -128,4 +128,44 @@
         WHERE seq = #{seq}
     </update>
 
+    <!-- 관리자 등록 -->
+    <insert id="insertAdmin">
+        INSERT INTO admin_info (
+            admin_id,
+            admin_pw,
+            admin_name,
+            auth_level,
+            status,
+            use_yn
+        ) VALUES (
+            #{id},
+            #{pw},
+            #{name},
+            #{authLevel},
+            #{status},
+            'Y'
+        )
+    </insert>
+
+    <!-- 관리자 정보 수정 -->
+    <update id="updateAdmin">
+        UPDATE admin_info
+        <set>
+            <if test="authLevel != null and authLevel != ''">
+                auth_level = #{authLevel},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="pw != null and pw != ''">
+                admin_pw = #{pw},
+            </if>
+            <if test="name != null and name != ''">
+                admin_name = #{name},
+            </if>
+        </set>
+        WHERE 1=1
+            AND seq = #{seq}
+            AND use_yn = 'Y'
+    </update>
 </mapper>

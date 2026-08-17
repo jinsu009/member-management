@@ -126,4 +126,52 @@ public class AdminService {
         return resultMap;
     }
 
+    public Map<String, Object> insertAdmin(Map<String, Object> map, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(map.get("id") == null || map.get("id").toString().trim().isEmpty()){
+            resultMap.put("resultCd", "E");
+            resultMap.put("resultMsg", "관리자 ID는 필수 입력값입니다.");
+            return resultMap;
+        }
+
+        String pw = map.get("pw") != null ? map.get("pw").toString() : null;
+        if(pw == null || pw.trim().isEmpty()){
+            resultMap.put("resultCd", "E");
+            resultMap.put("resultMsg", "관리자 비밀번호는 필수 입력값입니다.");
+            return resultMap;
+        }
+        String encPw = passwordEncoder.encode(pw);
+        map.put("pw", encPw);
+
+        int result = adminMapper.insertAdmin(map);
+        if(result > 0){
+            resultMap.put("resultCd", "S");
+            resultMap.put("resultMsg", "관리자 등록 성공");
+        }else{
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "관리자 등록 실패");
+        }
+        return resultMap;
+    }
+
+    public Map<String, Object> updateAdmin(Map<String, Object> map, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(map.get("seq") == null || map.get("seq").toString().trim().isEmpty()){
+            resultMap.put("resultCd", "E");
+            resultMap.put("resultMsg", "관리자 일련번호는 필수 입력값입니다.");
+            return resultMap;
+        }
+
+        int result = adminMapper.updateAdmin(map);
+        if(result > 0){
+            resultMap.put("resultCd", "S");
+            resultMap.put("resultMsg", "관리자 정보 수정 성공");
+        }else{
+            resultMap.put("resultCd", "F");
+            resultMap.put("resultMsg", "관리자 정보 수정 실패");
+        }
+        return resultMap;
+    }
 }

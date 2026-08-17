@@ -13,4 +13,6 @@ public interface AdminMapper {
     List<Map<String, Object>> selectUserInfoList(Map<String, Object> params);
     int selectUserInfoListCnt(Map<String, Object> params);
     int updateUserInfo(Map<String, Object> params);
+    int insertAdmin(Map<String, Object> params);
+    int updateAdmin(Map<String, Object> params);
 }

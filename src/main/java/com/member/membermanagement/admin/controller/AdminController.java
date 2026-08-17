@@ -68,4 +68,15 @@ public class AdminController {
         return ResponseEntity.ok(resultMap);
     }
 
+    @PostMapping("/ajax/insertAdmin")
+    public ResponseEntity<Map<String, Object>> insertAdmin(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = adminService.insertAdmin(map, request);
+        return ResponseEntity.ok(resultMap);
+    }
+
+    @PostMapping("/ajax/updateAdmin")
+    public ResponseEntity<Map<String, Object>> updateAdmin(@RequestBody Map<String, Object> map, HttpServletRequest request){
+        Map<String, Object> resultMap = adminService.updateAdmin(map, request);
+        return ResponseEntity.ok(resultMap);
+    }
 }
